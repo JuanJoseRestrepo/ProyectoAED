@@ -7,6 +7,7 @@ public class MAGraph<T> implements IGraph<T>{
 	
 	private int[][] matrix;
 	private List<VertexM<T>> vertexs;
+	private int time;
 	
 	public MAGraph() {
 		matrix = new int[50][50];
@@ -26,6 +27,14 @@ public class MAGraph<T> implements IGraph<T>{
 		this.vertexs = vertexs;
 	}
 	
+	public int getTime() {
+		return time;
+	}
+
+	public void setTime(int time) {
+		this.time = time;
+	}
+
 	@Override
 	public void add(T toAdd) {
 		// TODO Auto-generated method stub
@@ -51,6 +60,12 @@ public class MAGraph<T> implements IGraph<T>{
 		// TODO Auto-generated method stub
 		
 	}
+	
+	public void DFSVisit() {
+		// TODO Auto-generated method stub
+		
+	} 
+	
 	@Override
 	public List prim() {
 		// TODO Auto-generated method stub

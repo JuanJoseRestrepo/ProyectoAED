@@ -6,6 +6,7 @@ public class VertexM<T> {
 	private VertexM<T> predecessor;
 	private String color;
 	private int distance;
+	private int f;
 	
 	public VertexM(T object) {
 		super();
@@ -42,5 +43,13 @@ public class VertexM<T> {
 
 	public void setObject(T object) {
 		this.object = object;
+	}
+
+	public int getF() {
+		return f;
+	}
+
+	public void setF(int f) {
+		this.f = f;
 	}
 }

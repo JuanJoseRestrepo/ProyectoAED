@@ -8,6 +8,7 @@ import java.util.Queue;
 public class ALGraph<T> implements IGraph<T>{
 	
 	private List<VertexL<T>> vertexs;
+	private int time;
 
 	public ALGraph() {
 		vertexs = new ArrayList<VertexL<T>>();
@@ -19,6 +20,14 @@ public class ALGraph<T> implements IGraph<T>{
 
 	public void setVertexs(List<VertexL<T>> vertexs) {
 		this.vertexs = vertexs;
+	}
+
+	public int getTime() {
+		return time;
+	}
+
+	public void setTime(int time) {
+		this.time = time;
 	}
 
 	@Override
@@ -76,10 +85,34 @@ public class ALGraph<T> implements IGraph<T>{
 
 	@Override
 	public void DFS() {
-		// TODO Auto-generated method stub
-		
+		for(int i = 0; i < vertexs.size(); i++) {
+			vertexs.get(i).setColor("WHITE");
+			vertexs.get(i).setPredecessor(null);
+		}
+		time = 0;
+		for(int i = 0; i < vertexs.size(); i++) {
+			if(vertexs.get(i).getColor().equals("WHITE")) {
+				DFSVisit(vertexs.get(i));
+			}
+		}
 	}
 
+	public void DFSVisit(VertexL<T> u) {
+		time++;
+		u.setDistance(time);
+		u.setColor("GRAY");
+		List<Adjacent<T>> adjacents = u.getAdjacents();
+		for(int i = 0; i < adjacents.size(); i++) {
+			if(adjacents.get(i).getVertex().getColor().equals("WHITE")) {
+				adjacents.get(i).getVertex().setPredecessor(u);
+				DFSVisit(adjacents.get(i).getVertex());
+			}
+		}
+		u.setColor("BLACK");
+		time++;
+		u.setF(time);
+	} 
+	
 	@Override
 	public List prim() {
 		// TODO Auto-generated method stub
@@ -94,7 +127,18 @@ public class ALGraph<T> implements IGraph<T>{
 
 	@Override
 	public void connect(T one, T two, int weight) {
-		// TODO Auto-generated method stub
-		
-	} 
+		VertexL<T> v1 = null;
+		VertexL<T>  v2 = null;
+		for(int i = 0; i < vertexs.size(); i++) {
+			if(vertexs.get(i).getObject().equals(one)) {
+				v1 = vertexs.get(i);
+			} else if(vertexs.get(i).getObject().equals(two)){
+				v2 = vertexs.get(i);
+			}
+		}
+		Adjacent<T> a1 = new Adjacent(v1, weight);
+		Adjacent<T> a2 = new Adjacent(v2, weight);
+		v1.getAdjacents().add(a2);
+		v2.getAdjacents().add(a1);
+	}
 }

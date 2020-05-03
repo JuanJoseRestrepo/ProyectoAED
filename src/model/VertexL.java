@@ -10,6 +10,7 @@ public class VertexL<T> {
 	private int distance;
 	private VertexL<T> predecessor;
 	private List<Adjacent<T>> adjacents;
+	private int f;
 	
 	public VertexL(T object) {
 		super();
@@ -57,6 +58,14 @@ public class VertexL<T> {
 		this.adjacents = adjacents;
 	}
 	
+	public int getF() {
+		return f;
+	}
+
+	public void setF(int f) {
+		this.f = f;
+	}
+
 	public void deleteAdjacent(T toDelete) {
 		for(int i = 0; i < adjacents.size(); i++) {
 			if(adjacents.get(i).getVertex().getObject().equals(toDelete)) {
