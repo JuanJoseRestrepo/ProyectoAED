@@ -56,4 +56,12 @@ public class VertexL<T> {
 	public void setAdjacents(List<Adjacent<T>> adjacents) {
 		this.adjacents = adjacents;
 	}
+	
+	public void deleteAdjacent(T toDelete) {
+		for(int i = 0; i < adjacents.size(); i++) {
+			if(adjacents.get(i).getVertex().getObject().equals(toDelete)) {
+				adjacents.remove(i);
+			}
+		}
+	}
 }

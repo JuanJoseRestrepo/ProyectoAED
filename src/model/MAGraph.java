@@ -9,7 +9,7 @@ public class MAGraph<T> implements IGraph<T>{
 	private List<VertexM<T>> vertexs;
 	
 	public MAGraph() {
-		matrix = new int[100][100];
+		matrix = new int[50][50];
 		vertexs = new ArrayList<VertexM<T>>();
 	}
 	
@@ -42,7 +42,7 @@ public class MAGraph<T> implements IGraph<T>{
 		return null;
 	}
 	@Override
-	public void BFS(String origin) {
+	public void BFS(T origin) {
 		// TODO Auto-generated method stub
 		
 	}
@@ -63,7 +63,7 @@ public class MAGraph<T> implements IGraph<T>{
 	}
 
 	@Override
-	public void connect(T one, T two, double weight) {
+	public void connect(T one, T two, int weight) {
 		// TODO Auto-generated method stub
 		
 	}
