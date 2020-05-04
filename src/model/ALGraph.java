@@ -141,4 +141,14 @@ public class ALGraph<T> implements IGraph<T>{
 		v1.getAdjacents().add(a2);
 		v2.getAdjacents().add(a1);
 	}
+	
+	public String printPath(VertexL<T> origin, VertexL<T> destiny) {
+		if(destiny.equals(origin)) {
+			return origin.toString();
+		} else if(destiny.getPredecessor() == null) {
+			return "There is not path";
+		} else {
+			return printPath(origin, destiny.getPredecessor())+" "+destiny.toString(); 
+		}
+	}
 }

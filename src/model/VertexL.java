@@ -73,4 +73,9 @@ public class VertexL<T> {
 			}
 		}
 	}
+
+	@Override
+	public String toString() {
+		return object.toString();
+	}
 }

@@ -116,4 +116,14 @@ public class MAGraph<T> implements IGraph<T>{
 		// TODO Auto-generated method stub
 		
 	}
+	
+	public String printPath(VertexL<T> origin, VertexL<T> destiny) {
+		if(destiny.equals(origin)) {
+			return origin.toString();
+		} else if(destiny.getPredecessor() == null) {
+			return "There is not path";
+		} else {
+			return printPath(origin, destiny.getPredecessor())+" "+destiny.toString(); 
+		}
+	}
 }
