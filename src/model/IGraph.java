@@ -8,7 +8,7 @@ public interface IGraph<T> {
 	public void connect(T one, T two, int weight);
 	public void delete(T toDelete);
 	public T consult(String theVertex);
-	public void BFS(String origin);
+	public void BFS(T origin);
 	public void DFS();
 	public List prim();
 	public List Kruskal();
