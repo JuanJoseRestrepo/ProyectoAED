@@ -39,13 +39,38 @@ public class MAGraph<T> implements IGraph<T>{
 
 	@Override
 	public void add(T toAdd) {
-		// TODO Auto-generated method stub
+		VertexM<T> m = new VertexM<T>(toAdd);
 		
+		if(vertexs.isEmpty()) {
+			vertexs.add(m);
+			m.setPosition(0);
+		}else {
+			int position = 0;
+			for(int i = 0; i < vertexs.size();i++) {
+				if(vertexs.get(i).getPosition() == position) {
+					i = 0;
+					position++;
+				}
+			}
+			vertexs.add(m);
+			m.setPosition(position);	
+			}	
 	}
+	
 	@Override
 	public void delete(T toDelete) {
-		// TODO Auto-generated method stub
+		VertexM<T> m = new VertexM<T>(toDelete);
+		for(int i = 0; i < vertexs.size();i++) {
+			if(m.getPosition() == vertexs.get(i).getPosition()) {
+				vertexs.remove(i);
+			}
+		}
 		
+		for(int i = 0; i < matrix.length;i++) {
+			matrix[i][m.getPosition()] = 0;
+			matrix[m.getPosition()][i] = 0;
+		}
+
 	}
 	@Override
 	public T consult(String theVertex) {
@@ -91,12 +116,37 @@ public class MAGraph<T> implements IGraph<T>{
 	}
 	@Override
 	public void DFS() {
-		// TODO Auto-generated method stub
+		for(int i = 0; i < vertexs.size(); i++) {
+			vertexs.get(i).setColor("WHITE");
+			vertexs.get(i).setPredecessor(null);
+		}
+		time = 0;
+		for(int i = 0; i < vertexs.size(); i++) {
+			if(vertexs.get(i).getColor().equals("WHITE")) {
+				DFSVisit(vertexs.get(i));
+			}
+		}
 		
 	}
 	
-	public void DFSVisit() {
-		// TODO Auto-generated method stub
+	public void DFSVisit(VertexM<T> vertexM) {
+		time++;
+		vertexM.setDistance(time);
+		vertexM.setColor("GRAY");
+		int row = vertexM.getPosition();
+		for(int i = 0; i < matrix.length; i++) {
+			if(matrix[row][i] > 0) {
+				for(int j = 0; j < vertexs.size();j++) {
+					if(vertexs.get(j).getColor().equals("WHITE")) {						
+						vertexs.get(j).setPredecessor(vertexM);
+						DFSVisit(vertexs.get(j));
+					}
+				}
+			}
+		}
+		vertexM.setColor("BLACK");
+		time++;
+		vertexM.setF(time);
 		
 	} 
 	
@@ -113,7 +163,13 @@ public class MAGraph<T> implements IGraph<T>{
 
 	@Override
 	public void connect(T one, T two, int weight) {
-		// TODO Auto-generated method stub
+
+		VertexM<T> one1 = new VertexM<T>(one);
+		VertexM<T> two2 = new VertexM<T>(two);
+		
+		matrix[one1.getPosition()][two2.getPosition()] = weight;
+		matrix[two2.getPosition()][one1.getPosition()] = weight;
+
 		
 	}
 	

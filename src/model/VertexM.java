@@ -5,8 +5,8 @@ public class VertexM<T> {
 	private T object;
 	private VertexM<T> predecessor;
 	private String color;
-	private int distance;
 	private int position;
+	private int distance;
 	private int f;
 	
 	public VertexM(T object) {

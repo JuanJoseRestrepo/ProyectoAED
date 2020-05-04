@@ -125,7 +125,7 @@ public class ALGraph<T> implements IGraph<T>{
 		return null;
 	}
 
-	@Override
+
 	public void connect(T one, T two, int weight) {
 		VertexL<T> v1 = null;
 		VertexL<T>  v2 = null;
