@@ -1,7 +1,9 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 
 public class MAGraph<T> implements IGraph<T>{
 	
@@ -52,8 +54,40 @@ public class MAGraph<T> implements IGraph<T>{
 	}
 	@Override
 	public void BFS(T origin) {
-		// TODO Auto-generated method stub
-		
+		Queue<VertexM<T>> q = new LinkedList<VertexM<T>>();
+		for(int i = 0; i < vertexs.size(); i++) {
+			if(vertexs.get(i).getObject().equals(origin)) {
+				vertexs.get(i).setColor("GRAY");
+				vertexs.get(i).setDistance(0);
+				vertexs.get(i).setPredecessor(null);
+				q.offer(vertexs.get(i));
+			} else {
+				vertexs.get(i).setColor("WHITE");
+				vertexs.get(i).setDistance(Integer.MAX_VALUE);
+				vertexs.get(i).setPredecessor(null);
+			}
+		}
+		while(!q.isEmpty()) {
+			VertexM<T> u = q.poll();
+			int row = u.getPosition();
+			for(int i = 0; i < matrix.length; i++) {
+				if(matrix[row][i] > 0) {
+					boolean finded = false;
+					for(int j = 0; j < vertexs.size() && !finded; j++) {
+						if(vertexs.get(j).getPosition() == i) {
+							finded = true;
+							if(vertexs.get(j).getColor().equals("WHITE")) {
+								vertexs.get(j).setColor("GRAY");
+								vertexs.get(j).setDistance(u.getDistance()+1);
+								vertexs.get(j).setPredecessor(u);
+								q.offer(vertexs.get(j));
+							}
+						}
+					}
+				}
+			}
+			u.setColor("BLACK");
+		}
 	}
 	@Override
 	public void DFS() {

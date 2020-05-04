@@ -6,6 +6,7 @@ public class VertexM<T> {
 	private VertexM<T> predecessor;
 	private String color;
 	private int distance;
+	private int position;
 	private int f;
 	
 	public VertexM(T object) {
@@ -51,5 +52,13 @@ public class VertexM<T> {
 
 	public void setF(int f) {
 		this.f = f;
+	}
+
+	public int getPosition() {
+		return position;
+	}
+
+	public void setPosition(int position) {
+		this.position = position;
 	}
 }
