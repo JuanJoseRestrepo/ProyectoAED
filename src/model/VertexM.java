@@ -5,12 +5,24 @@ public class VertexM<T> {
 	private T object;
 	private VertexM<T> predecessor;
 	private String color;
+	private int position;
 	private int distance;
 	
 	public VertexM(T object) {
 		super();
 		this.object = object;
 	}
+
+	
+	public int getPosition() {
+		return position;
+	}
+
+	public void setPosition(int position) {
+		this.position = position;
+	}
+
+
 
 	public VertexM<T> getPredecessor() {
 		return predecessor;

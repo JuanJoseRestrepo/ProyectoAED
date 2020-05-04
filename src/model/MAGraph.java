@@ -9,7 +9,7 @@ public class MAGraph<T> implements IGraph<T>{
 	private List<VertexM<T>> vertexs;
 	
 	public MAGraph() {
-		matrix = new int[100][100];
+		matrix = new int[50][50];
 		vertexs = new ArrayList<VertexM<T>>();
 	}
 	
@@ -28,13 +28,38 @@ public class MAGraph<T> implements IGraph<T>{
 	
 	@Override
 	public void add(T toAdd) {
-		// TODO Auto-generated method stub
+		VertexM<T> m = new VertexM<T>(toAdd);
 		
+		if(vertexs.isEmpty()) {
+			vertexs.add(m);
+			m.setPosition(0);
+		}else {
+			int position = 0;
+			for(int i = 0; i < vertexs.size();i++) {
+				if(vertexs.get(i).getPosition() == position) {
+					i = 0;
+					position++;
+				}
+			}
+			vertexs.add(m);
+			m.setPosition(position);	
+			}	
 	}
+	
 	@Override
 	public void delete(T toDelete) {
-		// TODO Auto-generated method stub
+		VertexM<T> m = new VertexM<T>(toDelete);
+		for(int i = 0; i < vertexs.size();i++) {
+			if(m.getPosition() == vertexs.get(i).getPosition()) {
+				vertexs.remove(i);
+			}
+		}
 		
+		for(int i = 0; i < matrix.length;i++) {
+			matrix[i][m.getPosition()] = 0;
+			matrix[m.getPosition()][i] = 0;
+		}
+
 	}
 	@Override
 	public T consult(String theVertex) {
@@ -63,8 +88,12 @@ public class MAGraph<T> implements IGraph<T>{
 	}
 
 	@Override
-	public void connect(T one, T two, double weight) {
-		// TODO Auto-generated method stub
+	public void connect(T one, T two, int weight) {
+		VertexM<T> one1 = new VertexM<T>(one);
+		VertexM<T> two2 = new VertexM<T>(two);
+		
+		matrix[one1.getPosition()][two2.getPosition()] = weight;
+		matrix[two2.getPosition()][one1.getPosition()] = weight;
 		
 	}
 }

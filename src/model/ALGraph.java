@@ -60,7 +60,7 @@ public class ALGraph<T> implements IGraph<T>{
 	}
 
 	@Override
-	public void connect(T one, T two, double weight) {
+public void connect(T one, T two, int weight) {
 		// TODO Auto-generated method stub
 		
 	} 
