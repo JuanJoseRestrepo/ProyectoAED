@@ -1,9 +1,10 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
-public class VertexL<T> {
+public class VertexL<T> implements Comparator<VertexL<T>>{
 	
 	private T object;
 	private String color;
@@ -77,5 +78,10 @@ public class VertexL<T> {
 	@Override
 	public String toString() {
 		return object.toString();
+	}
+
+	@Override
+	public int compare(VertexL<T> arg0, VertexL<T> arg1) {
+		return arg0.distance - arg0.distance;
 	}
 }

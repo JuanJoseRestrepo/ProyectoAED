@@ -40,7 +40,6 @@ public class MAGraph<T> implements IGraph<T>{
 	@Override
 	public void add(T toAdd) {
 		VertexM<T> m = new VertexM<T>(toAdd);
-		
 		if(vertexs.isEmpty()) {
 			vertexs.add(m);
 			m.setPosition(0);
@@ -54,24 +53,25 @@ public class MAGraph<T> implements IGraph<T>{
 			}
 			vertexs.add(m);
 			m.setPosition(position);	
-			}	
+		}	
 	}
 	
 	@Override
 	public void delete(T toDelete) {
-		VertexM<T> m = new VertexM<T>(toDelete);
-		for(int i = 0; i < vertexs.size();i++) {
-			if(m.getPosition() == vertexs.get(i).getPosition()) {
+		boolean finded = false;
+		for(int i = 0; i < vertexs.size() && !finded; i++) {
+			if(vertexs.get(i).getObject().equals(toDelete)) {
+				finded = true;
+				int position = vertexs.get(i).getPosition();
+				for(int j = 0; j < matrix.length; j++) {
+					matrix[position][j] = 0;
+					matrix[j][position] = 0;
+				}
 				vertexs.remove(i);
 			}
 		}
-		
-		for(int i = 0; i < matrix.length;i++) {
-			matrix[i][m.getPosition()] = 0;
-			matrix[m.getPosition()][i] = 0;
-		}
-
 	}
+	
 	@Override
 	public T consult(String theVertex) {
 		// TODO Auto-generated method stub
@@ -163,14 +163,17 @@ public class MAGraph<T> implements IGraph<T>{
 
 	@Override
 	public void connect(T one, T two, int weight) {
-
-		VertexM<T> one1 = new VertexM<T>(one);
-		VertexM<T> two2 = new VertexM<T>(two);
-		
+		VertexM<T> one1 = null;
+		VertexM<T> two2 = null;
+		for(int i = 0; i < vertexs.size(); i++) {
+			if(vertexs.get(i).getObject().equals(one)) {
+				one1 = vertexs.get(i);
+			} else if(vertexs.get(i).getObject().equals(two)) {
+				two2 = vertexs.get(i);
+			}
+		}
 		matrix[one1.getPosition()][two2.getPosition()] = weight;
 		matrix[two2.getPosition()][one1.getPosition()] = weight;
-
-		
 	}
 	
 	public String printPath(VertexL<T> origin, VertexL<T> destiny) {
@@ -181,5 +184,11 @@ public class MAGraph<T> implements IGraph<T>{
 		} else {
 			return printPath(origin, destiny.getPredecessor())+" "+destiny.toString(); 
 		}
+	}
+
+	@Override
+	public void Dijkstra(T origin) {
+		// TODO Auto-generated method stub
+		
 	}
 }

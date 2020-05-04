@@ -3,6 +3,7 @@ package model;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.PriorityQueue;
 import java.util.Queue;
 
 public class ALGraph<T> implements IGraph<T>{
@@ -149,6 +150,33 @@ public class ALGraph<T> implements IGraph<T>{
 			return "There is not path";
 		} else {
 			return printPath(origin, destiny.getPredecessor())+" "+destiny.toString(); 
+		}
+	}
+
+	@Override
+	public void Dijkstra(T origin) {
+		PriorityQueue<VertexL<T>> pq = new PriorityQueue<VertexL<T>>();
+		for(int i = 0; i < vertexs.size(); i++) {
+			if(vertexs.get(i).getObject().equals(origin)) {
+				vertexs.get(i).setDistance(0);
+			} else {
+				vertexs.get(i).setDistance(Integer.MAX_VALUE);
+			}
+			vertexs.get(i).setPredecessor(null);
+			pq.add(vertexs.get(i));
+		}
+		while(!pq.isEmpty()) {
+			VertexL<T> u = pq.poll();
+			List<Adjacent<T>> adjacents = u.getAdjacents();
+			for(int i = 0; i < adjacents.size(); i++) {
+				int alt = u.getDistance() + adjacents.get(i).getWeight();
+				if(alt < adjacents.get(i).getVertex().getDistance()) {
+					adjacents.get(i).getVertex().setDistance(alt);
+					adjacents.get(i).getVertex().setPredecessor(u);
+					pq.remove(adjacents.get(i).getVertex());
+					pq.add(adjacents.get(i).getVertex());
+				}
+			}
 		}
 	}
 }

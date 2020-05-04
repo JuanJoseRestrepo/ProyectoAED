@@ -3,9 +3,9 @@ package model;
 public class Adjacent<T> {
 	
 	private VertexL<T> vertex;
-	private double weight;
+	private int weight;
 	
-	public Adjacent(VertexL<T> vertex, double weight) {
+	public Adjacent(VertexL<T> vertex, int weight) {
 		super();
 		this.vertex = vertex;
 		this.weight = weight;
@@ -19,11 +19,11 @@ public class Adjacent<T> {
 		this.vertex = vertex;
 	}
 
-	public double getWeight() {
+	public int getWeight() {
 		return weight;
 	}
 
-	public void setWeight(double weight) {
+	public void setWeight(int weight) {
 		this.weight = weight;
 	}
 }

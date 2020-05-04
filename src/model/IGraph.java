@@ -12,4 +12,5 @@ public interface IGraph<T> {
 	public void DFS();
 	public List prim();
 	public List Kruskal();
+	public void Dijkstra(T origin);
 }
