@@ -13,4 +13,7 @@ public interface IGraph<T> {
 	public List prim();
 	public List Kruskal();
 	public void Dijkstra(T origin);
+	public void makeSet(T toAdd);
+	public void union(T one, T two);
+	public Set<T> findSet(T toFind);
 }

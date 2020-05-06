@@ -201,4 +201,22 @@ public class MAGraph<T> implements IGraph<T>{
 		// TODO Auto-generated method stub
 		
 	}
+
+	@Override
+	public void makeSet(T toAdd) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void union(T one, T two) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public Set<T> findSet(T toFind) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
