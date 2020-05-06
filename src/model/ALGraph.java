@@ -10,15 +10,17 @@ public class ALGraph<T> implements IGraph<T>{
 	
 	private List<VertexL<T>> vertexs;
 	private int time;
+	private List<Set<T>> sets;
 
 	public ALGraph() {
 		vertexs = new ArrayList<VertexL<T>>();
+		sets = new ArrayList<Set<T>>();
 	}
-
+	
 	public List<VertexL<T>> getVertexs() {
 		return vertexs;
 	}
-
+	
 	public void setVertexs(List<VertexL<T>> vertexs) {
 		this.vertexs = vertexs;
 	}
@@ -29,6 +31,14 @@ public class ALGraph<T> implements IGraph<T>{
 
 	public void setTime(int time) {
 		this.time = time;
+	}
+
+	public List<Set<T>> getSets() {
+		return sets;
+	}
+
+	public void setSets(List<Set<T>> sets) {
+		this.sets = sets;
 	}
 
 	@Override
@@ -149,7 +159,7 @@ public class ALGraph<T> implements IGraph<T>{
 		} else if(destiny.getPredecessor() == null) {
 			return "There is not path";
 		} else {
-			return printPath(origin, destiny.getPredecessor())+" "+destiny.toString(); 
+			return printPath(origin, destiny.getPredecessor())+" -> "+destiny.toString(); 
 		}
 	}
 

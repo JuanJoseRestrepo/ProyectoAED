@@ -10,10 +10,12 @@ public class MAGraph<T> implements IGraph<T>{
 	private int[][] matrix;
 	private List<VertexM<T>> vertexs;
 	private int time;
+	private List<Set<T>> sets;
 	
 	public MAGraph() {
 		matrix = new int[50][50];
 		vertexs = new ArrayList<VertexM<T>>();
+		sets = new ArrayList<Set<T>>();
 	}
 	
 	public int[][] getMatrix() {
@@ -35,6 +37,14 @@ public class MAGraph<T> implements IGraph<T>{
 
 	public void setTime(int time) {
 		this.time = time;
+	}
+
+	public List<Set<T>> getSets() {
+		return sets;
+	}
+
+	public void setSets(List<Set<T>> sets) {
+		this.sets = sets;
 	}
 
 	@Override
@@ -182,7 +192,7 @@ public class MAGraph<T> implements IGraph<T>{
 		} else if(destiny.getPredecessor() == null) {
 			return "There is not path";
 		} else {
-			return printPath(origin, destiny.getPredecessor())+" "+destiny.toString(); 
+			return printPath(origin, destiny.getPredecessor())+" -> "+destiny.toString(); 
 		}
 	}
 

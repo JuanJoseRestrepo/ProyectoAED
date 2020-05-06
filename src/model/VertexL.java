@@ -68,9 +68,11 @@ public class VertexL<T> implements Comparator<VertexL<T>>{
 	}
 
 	public void deleteAdjacent(T toDelete) {
-		for(int i = 0; i < adjacents.size(); i++) {
+		boolean finded = false;
+		for(int i = 0; i < adjacents.size() && !finded; i++) {
 			if(adjacents.get(i).getVertex().getObject().equals(toDelete)) {
 				adjacents.remove(i);
+				finded = true;
 			}
 		}
 	}
