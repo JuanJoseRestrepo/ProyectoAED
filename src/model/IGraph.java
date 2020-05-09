@@ -10,11 +10,11 @@ public interface IGraph<T> {
 	public T consult(String theVertex);
 	public void BFS(T origin);
 	public void DFS();
-	public List prim(T origin);
-	public List Kruskal();
+	public List<Edge<T>> prim(T origin);
+	public List<Edge<T>> Kruskal();
 	public void Dijkstra(T origin);
 	public void makeSet(T toAdd);
 	public void union(T one, T two);
-	public int[][] floydWarshall(T origin);
+	public int[][] floydWarshall();
 	public Set<T> findSet(T toFind);
 }

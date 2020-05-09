@@ -11,11 +11,13 @@ public class MAGraph<T> implements IGraph<T>{
 	private List<VertexM<T>> vertexs;
 	private int time;
 	private List<Set<T>> sets;
+	private List<Edge<T>> edges;
 	
 	public MAGraph() {
 		matrix = new int[50][50];
 		vertexs = new ArrayList<VertexM<T>>();
 		sets = new ArrayList<Set<T>>();
+		edges = new ArrayList<Edge<T>>();
 	}
 	
 	public int[][] getMatrix() {
@@ -45,6 +47,14 @@ public class MAGraph<T> implements IGraph<T>{
 
 	public void setSets(List<Set<T>> sets) {
 		this.sets = sets;
+	}
+
+	public List<Edge<T>> getEdges() {
+		return edges;
+	}
+
+	public void setEdges(List<Edge<T>> edges) {
+		this.edges = edges;
 	}
 
 	@Override
@@ -78,6 +88,11 @@ public class MAGraph<T> implements IGraph<T>{
 					matrix[j][position] = 0;
 				}
 				vertexs.remove(i);
+			}
+		}
+		for(int i = 0; i < edges.size(); i++) {
+			if(edges.get(i).getFirst().equals(toDelete) || edges.get(i).getSecond().equals(toDelete)) {
+				edges.remove(i);
 			}
 		}
 	}
@@ -173,6 +188,8 @@ public class MAGraph<T> implements IGraph<T>{
 
 	@Override
 	public void connect(T one, T two, int weight) {
+		Edge<T> toAdd = new Edge<T>(one, two, weight);
+		edges.add(toAdd);
 		VertexM<T> one1 = null;
 		VertexM<T> two2 = null;
 		for(int i = 0; i < vertexs.size(); i++) {
@@ -221,7 +238,7 @@ public class MAGraph<T> implements IGraph<T>{
 	}
 
 	@Override
-	public int[][] floydWarshall(T origin) {
+	public int[][] floydWarshall() {
 		return matrix;
 		// TODO Auto-generated method stub
 		

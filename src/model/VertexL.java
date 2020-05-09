@@ -86,4 +86,16 @@ public class VertexL<T> implements Comparator<VertexL<T>>{
 	public int compare(VertexL<T> arg0, VertexL<T> arg1) {
 		return arg0.distance - arg0.distance;
 	}
+	
+	public int weight(VertexL<T> vertex) {
+		boolean finded = false;
+		int weight = Integer.MAX_VALUE;
+		for(int i = 0; i < adjacents.size() && !finded; i++) {
+			if(adjacents.get(i).getVertex().equals(vertex)) {
+				finded = true;
+				weight = adjacents.get(i).getWeight();
+			}
+		}
+		return weight;
+	}
 }

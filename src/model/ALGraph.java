@@ -11,12 +11,14 @@ import sun.security.provider.certpath.AdjacencyList;
 public class ALGraph<T> implements IGraph<T>{
 	
 	private List<VertexL<T>> vertexs;
+	private List<Edge<T>> edges;
 	private int time;
 	private List<Set<T>> sets;
 
 	public ALGraph() {
 		vertexs = new ArrayList<VertexL<T>>();
 		sets = new ArrayList<Set<T>>();
+		edges = new ArrayList<Edge<T>>();
 	}
 	
 	public List<VertexL<T>> getVertexs() {
@@ -43,6 +45,14 @@ public class ALGraph<T> implements IGraph<T>{
 		this.sets = sets;
 	}
 
+	public List<Edge<T>> getEdges() {
+		return edges;
+	}
+
+	public void setEdges(List<Edge<T>> edges) {
+		this.edges = edges;
+	}
+
 	@Override
 	public void add(T toAdd) {
 		VertexL<T> theVertex = new VertexL<T>(toAdd);
@@ -56,6 +66,11 @@ public class ALGraph<T> implements IGraph<T>{
 				vertexs.remove(i);
 			} else {
 				vertexs.get(i).deleteAdjacent(toDelete);
+			}
+		}
+		for(int i = 0; i < edges.size(); i++) {
+			if(edges.get(i).getFirst().equals(toDelete) || edges.get(i).getSecond().equals(toDelete)) {
+				edges.remove(i);
 			}
 		}
 	}
@@ -127,57 +142,43 @@ public class ALGraph<T> implements IGraph<T>{
 	} 
 	
 	@Override
-	public List prim(T node) {
-		//Como retorna la lista simplemente recorremos el grafo que nos genera y ahi sacamos el valor del peso
-		VertexL<T> u = new VertexL<T>(node);
-        PriorityQueue<Adjacent<T>> pq = new PriorityQueue<>();
-        List<Adjacent<T>> adjVertex = u.getAdjacents();
-        
-        int n = adjVertex.size();
-        
-        boolean visited[] = new boolean[n];
-        for(int i = 0; i < n;i++) {
-        	visited[i] = false;
-        }
-        
-		for(Adjacent<T> v :adjVertex) {
-			Adjacent<T> m = new Adjacent<T>(v.getVertex(),v.getWeight());
-			pq.add(m);
-		}
-		
-		int inTree = 1;
-		
-		visited[0] = true;
-
-		while(!pq.isEmpty() && inTree < n) {
-			
-			Adjacent<T> s = pq.poll();
-			
-			if(!visited[s.getVertex().getDistance()]) {
-				
-				inTree++;
-				visited[s.getVertex().getDistance()] = true;
-	
-				
-				for(int i = 0; i < adjVertex.size();i++) {
-					pq.add(adjVertex.get(s.getVertex().getDistance()));
-				}
-				
-			}
-
-		}
-		
-		return adjVertex;
+	public List<Edge<T>> prim(T node) {
+		//TO DO
+		return null;
 	}
 
 	@Override
-	public List Kruskal() {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Edge<T>> Kruskal() {
+		List<Edge<T>> a = new ArrayList<Edge<T>>();
+		for(int i = 0; i < vertexs.size(); i++) {
+			makeSet(vertexs.get(i).getObject());
+		}
+		sortEdges();
+		for(int i = 0; i < edges.size(); i++) {
+			if(!findSet(edges.get(i).getFirst()).equals(findSet(edges.get(i).getSecond()))) {
+				a.add(edges.get(i));
+				union(edges.get(i).getFirst(), edges.get(i).getSecond());
+			}
+		}
+		return a;
+	}
+	
+	public void sortEdges() {
+		for(int i = edges.size(); i > 0; i--) {
+			for(int j = 0; j < i-1; j++) {
+				if(edges.get(j).getWeight() > edges.get(j+1).getWeight()) {
+					Edge<T> temp = edges.get(j);
+					edges.set(j, edges.get(j+1));
+					edges.set(j+1, temp);
+				}
+			}
+		}
 	}
 
 
 	public void connect(T one, T two, int weight) {
+		Edge<T> toAdd = new Edge<T>(one, two, weight);
+		edges.add(toAdd);
 		VertexL<T> v1 = null;
 		VertexL<T>  v2 = null;
 		for(int i = 0; i < vertexs.size(); i++) {
@@ -261,32 +262,26 @@ public class ALGraph<T> implements IGraph<T>{
 	}
 
 	@Override
-	public int[][] floydWarshall(T origin) {
-		VertexL<T> v1 = (VertexL<T>) origin;
-		int adjacents = v1.getAdjacents().size();
-		
-		int[][] min = new int[v1.getAdjacents().size()][v1.getAdjacents().size()];
-		for(int edge = 0; edge < vertexs.size();edge++) {
-			min[edge][edge] = 0;
+	public int[][] floydWarshall() {
+		int[][] min = new int[vertexs.size()][vertexs.size()];
+		for(int i = 0; i < vertexs.size(); i++) {
+			for(int j = 0; j < vertexs.size(); j++) {
+				if(i == j) {
+					min[i][j] = 0;
+				} else {
+					min[i][j] = vertexs.get(i).weight(vertexs.get(j));
+				}
+			}
 		}
-		for(int o = 0; o < adjacents;o++) {
-			int m = v1.getAdjacents().get(o).getVertex().getDistance();
-			min[m][m] = v1.getAdjacents().get(o).getWeight();
-		}
-		
-		for(int k = 0; k < vertexs.size();k++) {
-			for(int i = 0; i < vertexs.size();i++) {
-				for(int j = 0; j < vertexs.size();j++) {
+		for(int k = 0; k < vertexs.size(); k++) {
+			for(int i = 0; i < vertexs.size(); i++) {
+				for(int j = 0; j < vertexs.size(); j++) {
 					if(min[i][j] > min[i][k] + min[k][j]) {
 						min[i][j] = min[i][k] + min[k][j];
 					}
 				}
 			}
 		}
-		
-		
-		
 		return min;
-		
 	}
 }
