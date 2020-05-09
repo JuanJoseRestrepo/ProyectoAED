@@ -3,6 +3,7 @@ package model;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.PriorityQueue;
 import java.util.Queue;
 
 public class MAGraph<T> implements IGraph<T>{
@@ -176,14 +177,37 @@ public class MAGraph<T> implements IGraph<T>{
 	} 
 	
 	@Override
-	public List prim(T origin) {
+	public List<Edge<T>> prim(T origin) {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
 	@Override
-	public List Kruskal() {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Edge<T>> Kruskal() {
+		List<Edge<T>> a = new ArrayList<Edge<T>>();
+		for(int i = 0; i < vertexs.size(); i++) {
+			makeSet(vertexs.get(i).getObject());
+		}
+		sortEdges();
+		for(int i = 0; i < edges.size(); i++) {
+			if(!findSet(edges.get(i).getFirst()).equals(findSet(edges.get(i).getSecond()))) {
+				a.add(edges.get(i));
+				union(edges.get(i).getFirst(), edges.get(i).getSecond());
+			}
+		}
+		return a;
+	}
+	
+	public void sortEdges() {
+		for(int i = edges.size(); i > 0; i--) {
+			for(int j = 0; j < i-1; j++) {
+				if(edges.get(j).getWeight() > edges.get(j+1).getWeight()) {
+					Edge<T> temp = edges.get(j);
+					edges.set(j, edges.get(j+1));
+					edges.set(j+1, temp);
+				}
+			}
+		}
 	}
 
 	@Override
@@ -215,32 +239,93 @@ public class MAGraph<T> implements IGraph<T>{
 
 	@Override
 	public void Dijkstra(T origin) {
-		// TODO Auto-generated method stub
-		
+		PriorityQueue<VertexM<T>> pq = new PriorityQueue<VertexM<T>>();
+		for(int i = 0; i < vertexs.size(); i++) {
+			if(vertexs.get(i).getObject().equals(origin)) {
+				vertexs.get(i).setDistance(0);
+			} else {
+				vertexs.get(i).setDistance(Integer.MAX_VALUE);
+			}
+			vertexs.get(i).setPredecessor(null);
+			pq.add(vertexs.get(i));
+		}
+		while(!pq.isEmpty()) {
+			VertexM<T> u = pq.poll();
+			for(int i = 0; i < matrix.length; i++) {
+				if(matrix[u.getPosition()][i] > 0) {
+					VertexM<T> adjacent = null;
+					for(int j = 0; j < vertexs.size(); j++) {
+						if(vertexs.get(j).getPosition() == i) {
+							adjacent = vertexs.get(j);
+						}
+					}
+					int alt = u.getDistance() + matrix[u.getPosition()][i];
+					if(alt < adjacent.getDistance()) {
+						adjacent.setDistance(alt);
+						adjacent.setPredecessor(u);
+						pq.remove(adjacent);
+						pq.add(adjacent);
+					}
+				}
+			}
+		}
 	}
 
 	@Override
 	public void makeSet(T toAdd) {
-		// TODO Auto-generated method stub
-		
+		Set<T> s = new Set<T>(toAdd);
+		sets.add(s);
 	}
 
 	@Override
 	public void union(T one, T two) {
-		// TODO Auto-generated method stub
-		
+		Set<T> firstSet = findSet(one);
+		Set<T> secondSet = findSet(two);
+		if(firstSet.compareTo(secondSet) < 0) {
+			firstSet.union(secondSet);
+		} else {
+			secondSet.union(secondSet);
+		}
 	}
 
 	@Override
 	public Set<T> findSet(T toFind) {
-		// TODO Auto-generated method stub
-		return null;
+		Set<T> t = null;
+		boolean finded = false;
+		for(int i = 0; i < sets.size() && !finded; i++) {
+			if(sets.get(i).findSet(toFind)) {
+				t = sets.get(i);
+				finded = true;
+			}
+		}
+		return t;
 	}
 
 	@Override
 	public int[][] floydWarshall() {
-		return matrix;
-		// TODO Auto-generated method stub
-		
+		int[][] min = new int[vertexs.size()][vertexs.size()];
+		for(int i = 0; i < vertexs.size(); i++) {
+			for(int j = 0; j < vertexs.size(); j++) {
+				if(i == j) {
+					min[i][j] = 0;
+				} else {
+					if(matrix[i][j] == 0) {
+						min[i][j] = Integer.MAX_VALUE;
+					} else {
+						min[i][j] = matrix[i][j];
+					}
+				}
+			}
+		}
+		for(int k = 0; k < vertexs.size(); k++) {
+			for(int i = 0; i < vertexs.size(); i++) {
+				for(int j = 0; j < vertexs.size(); j++) {
+					if(min[i][j] > min[i][k] + min[k][j]) {
+						min[i][j] = min[i][k] + min[k][j];
+					}
+				}
+			}
+		}
+		return min;
 	}
 }

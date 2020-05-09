@@ -175,7 +175,6 @@ public class ALGraph<T> implements IGraph<T>{
 		}
 	}
 
-
 	public void connect(T one, T two, int weight) {
 		Edge<T> toAdd = new Edge<T>(one, two, weight);
 		edges.add(toAdd);
