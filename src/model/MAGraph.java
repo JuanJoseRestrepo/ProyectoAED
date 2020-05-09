@@ -161,7 +161,7 @@ public class MAGraph<T> implements IGraph<T>{
 	} 
 	
 	@Override
-	public List prim() {
+	public List prim(T origin) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -186,7 +186,7 @@ public class MAGraph<T> implements IGraph<T>{
 		matrix[two2.getPosition()][one1.getPosition()] = weight;
 	}
 	
-	public String printPath(VertexL<T> origin, VertexL<T> destiny) {
+	public String printPath(VertexM<T> origin, VertexM<T> destiny) {
 		if(destiny.equals(origin)) {
 			return origin.toString();
 		} else if(destiny.getPredecessor() == null) {
@@ -218,5 +218,12 @@ public class MAGraph<T> implements IGraph<T>{
 	public Set<T> findSet(T toFind) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public int[][] floydWarshall(T origin) {
+		return matrix;
+		// TODO Auto-generated method stub
+		
 	}
 }

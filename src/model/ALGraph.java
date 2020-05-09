@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.PriorityQueue;
 import java.util.Queue;
 
+import sun.security.provider.certpath.AdjacencyList;
+
 public class ALGraph<T> implements IGraph<T>{
 	
 	private List<VertexL<T>> vertexs;
@@ -125,9 +127,47 @@ public class ALGraph<T> implements IGraph<T>{
 	} 
 	
 	@Override
-	public List prim() {
-		// TODO Auto-generated method stub
-		return null;
+	public List prim(T node) {
+		//Como retorna la lista simplemente recorremos el grafo que nos genera y ahi sacamos el valor del peso
+		VertexL<T> u = new VertexL<T>(node);
+        PriorityQueue<Adjacent<T>> pq = new PriorityQueue<>();
+        List<Adjacent<T>> adjVertex = u.getAdjacents();
+        
+        int n = adjVertex.size();
+        
+        boolean visited[] = new boolean[n];
+        for(int i = 0; i < n;i++) {
+        	visited[i] = false;
+        }
+        
+		for(Adjacent<T> v :adjVertex) {
+			Adjacent<T> m = new Adjacent<T>(v.getVertex(),v.getWeight());
+			pq.add(m);
+		}
+		
+		int inTree = 1;
+		
+		visited[0] = true;
+
+		while(!pq.isEmpty() && inTree < n) {
+			
+			Adjacent<T> s = pq.poll();
+			
+			if(!visited[s.getVertex().getDistance()]) {
+				
+				inTree++;
+				visited[s.getVertex().getDistance()] = true;
+	
+				
+				for(int i = 0; i < adjVertex.size();i++) {
+					pq.add(adjVertex.get(s.getVertex().getDistance()));
+				}
+				
+			}
+
+		}
+		
+		return adjVertex;
 	}
 
 	@Override
@@ -218,5 +258,35 @@ public class ALGraph<T> implements IGraph<T>{
 			}
 		}
 		return t;
+	}
+
+	@Override
+	public int[][] floydWarshall(T origin) {
+		VertexL<T> v1 = (VertexL<T>) origin;
+		int adjacents = v1.getAdjacents().size();
+		
+		int[][] min = new int[v1.getAdjacents().size()][v1.getAdjacents().size()];
+		for(int edge = 0; edge < vertexs.size();edge++) {
+			min[edge][edge] = 0;
+		}
+		for(int o = 0; o < adjacents;o++) {
+			int m = v1.getAdjacents().get(o).getVertex().getDistance();
+			min[m][m] = v1.getAdjacents().get(o).getWeight();
+		}
+		
+		for(int k = 0; k < vertexs.size();k++) {
+			for(int i = 0; i < vertexs.size();i++) {
+				for(int j = 0; j < vertexs.size();j++) {
+					if(min[i][j] > min[i][k] + min[k][j]) {
+						min[i][j] = min[i][k] + min[k][j];
+					}
+				}
+			}
+		}
+		
+		
+		
+		return min;
+		
 	}
 }
