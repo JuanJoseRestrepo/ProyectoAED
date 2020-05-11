@@ -143,8 +143,66 @@ public class ALGraph<T> implements IGraph<T>{
 	
 	@Override
 	public List<Edge<T>> prim(T node) {
-		//TO DO
-		return null;
+
+		VertexL<T> firstNode = new VertexL<T>(node);
+		List<Edge<T>> MinTreeEdge = new ArrayList<>();
+		
+		List<VertexL<T>> visitedVertex = new ArrayList<VertexL<T>>();
+		List<VertexL<T>> NonVisitedVertex = new ArrayList<>();
+		
+		NonVisitedVertex = vertexs;
+		
+		VertexL<T> start = NonVisitedVertex.remove(firstNode.getDistance());
+		visitedVertex.add(start);
+		
+		while(!NonVisitedVertex.isEmpty()) {
+			
+			Edge<T> temp = getMiniumWeightEdge(visitedVertex,NonVisitedVertex);
+			MinTreeEdge.add(temp);
+			visitedVertex.add(NonVisitedVertex.remove(NonVisitedVertex.indexOf(temp.getSecond())));
+		}
+		
+		
+		return MinTreeEdge;
+	}		
+
+	public Edge<T> getMiniumWeightEdge(List<VertexL<T>> visitedVertex, List<VertexL<T>> nonVisitedVertex) {
+		Edge<T> e;
+
+		int min=Integer.MAX_VALUE;
+		
+		T vertex1 = null;
+		T vertex2 = null;
+		
+		for(VertexL<T> visted : visitedVertex){
+			
+			for(VertexL<T> Nonvisted : nonVisitedVertex){
+				
+				int temp=getWeight(visted, Nonvisted);
+				if(temp!=0){
+					if(temp<min){
+						min=temp;
+						vertex1=(T) visted;
+						vertex2=(T) Nonvisted;
+					}
+				}
+			}	
+		}
+		e=new Edge<T>(vertex1, vertex2, min);
+		
+		return e;
+		
+	}
+
+	private int getWeight(VertexL<T> visted, VertexL<T> nonvisted) {
+		
+		for(Edge<T> e : edges) {
+			if((e.getFirst() == visted && e.getSecond() == nonvisted) || (e.getSecond() == visted && e.getFirst() == nonvisted)) {
+				return e.getWeight();
+			}
+		}
+		
+		return 0;
 	}
 
 	@Override
