@@ -143,6 +143,9 @@ public class ALGraph<T> implements IGraph<T>{
 	
 	@Override
 	public int prim(T node) {
+		//Mi estrategia es ver cada uno de los adjacentes al vertice que nos dan
+		//y cada ves mirar cual es el menor entre todos entonces
+		//Como el mira todos los vertices y da el menor entre ellos entonces por eso el while
 		int cost = 0;
 		VertexL<T> firstNode = new VertexL<T>(node);
 		List<VertexL<T>> addVertexVisited = new ArrayList<>();

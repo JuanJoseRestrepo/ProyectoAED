@@ -1,1 +1,97 @@
 /* JavaFX CSS - Leave this comment until you have at least create one rule which uses -fx-Property */
+
+*{
+	
+	button_color:yellow;
+	base_color:green;
+	special_color:rgb(0, 153, 51);
+	text_color:black;
+	
+	
+}
+
+.dialog-pane{
+  -fx-border-color:black;
+  -fx-border-width:2.0px;
+ }
+ 
+.dialog {
+	
+	-fx-background-color: base_color;
+	  -fx-border-color:black;
+ 	 -fx-border-width:2.0px;
+}
+
+.dialog-pane > .button-bar > .container {
+    -fx-padding: 0.833em; /* 10px */
+
+  }
+
+.dialog-pane > .content.label {
+   -fx-padding: 0.5em 0.5em 0.5em 0.5em;
+   -fx-background-color: yellow;
+   -fx-text-fill:black;
+   -fx-font-size:15.0px;
+}
+
+.dialog *.button {
+	
+	-fx-background-color: special_color;
+	-fx-font: bold 10pt "Arial";/*HFONT*/
+	-fx-border-radius: 5;
+	-fx-text-fill: text_color;
+
+}
+
+.dialog-pane:header .header-panel {
+  -fx-background-color: yellow;
+}
+
+.vehicle {
+	
+	-fx-background-color: transparent;
+	-fx-font: bold 11pt "Arial";
+}
+
+.dialog-pane .button:hover{     
+  -fx-background-color:white;
+  -fx-text-fill:black;
+  -fx-font-weight:bold; 
+ }
+
+.delete {
+	
+	-fx-background-color: black;
+	-fx-text-fill: special_color;
+}
+
+.register{
+	-fx-text-fill: special_color;
+}
+
+
+.label{
+	-fx-text-fill: text_color;
+	-fx-font: bold 10pt "Arial";
+}
+
+.pane {
+	-fx-background-color: base_color;
+	-fx-background-size: cover;
+	  -fx-border-color:black;
+  -fx-border-width:2.0px;
+}
+
+#principal{
+	-fx-text-fill: button_color;
+	-fx-background-color:special_color ;
+	-fx-font: bold 11pt "Arial";
+}
+.button {
+	-fx-text-fill: text_color;
+	-fx-background-color: button_color;
+	-fx-border-color: rgb(49, 89, 23);
+    -fx-border-radius: 5;
+    -fx-padding: 3 6 6 6;
+	-fx-font: bold 11pt "Arial";
+}
