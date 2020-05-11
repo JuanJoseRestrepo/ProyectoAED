@@ -10,7 +10,7 @@ public interface IGraph<T> {
 	public T consult(String theVertex);
 	public void BFS(T origin);
 	public void DFS();
-	public List prim(T origin);
+	public int prim(T origin);
 	public List<Edge<T>> Kruskal();
 	public void Dijkstra(T origin);
 	public void makeSet(T toAdd);

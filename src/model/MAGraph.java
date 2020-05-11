@@ -177,9 +177,10 @@ public class MAGraph<T> implements IGraph<T>{
 	} 
 	
 	@Override
-	public List prim(T origin) {
-		// TODO Auto-generated method stub
-		return null;
+	public int prim(T origin) {
+		
+		
+		return 0;
 	}
 	
 	@Override

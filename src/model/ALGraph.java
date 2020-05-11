@@ -142,68 +142,64 @@ public class ALGraph<T> implements IGraph<T>{
 	} 
 	
 	@Override
-	public List<Edge<T>> prim(T node) {
-
+	public int prim(T node) {
+		int cost = 0;
 		VertexL<T> firstNode = new VertexL<T>(node);
-		List<Edge<T>> MinTreeEdge = new ArrayList<>();
+		List<VertexL<T>> addVertexVisited = new ArrayList<>();
+		List<Adjacent<T>> noVisited = new ArrayList<>();
 		
-		List<VertexL<T>> visitedVertex = new ArrayList<VertexL<T>>();
-		List<VertexL<T>> NonVisitedVertex = new ArrayList<>();
+		addVertexVisited.add(firstNode);
 		
-		NonVisitedVertex = vertexs;
-		
-		VertexL<T> start = NonVisitedVertex.remove(firstNode.getDistance());
-		visitedVertex.add(start);
-		
-		while(!NonVisitedVertex.isEmpty()) {
-			
-			Edge<T> temp = getMiniumWeightEdge(visitedVertex,NonVisitedVertex);
-			MinTreeEdge.add(temp);
-			visitedVertex.add(NonVisitedVertex.remove(NonVisitedVertex.indexOf(temp.getSecond())));
+		for(int i = 0; i < firstNode.getAdjacents().size();i++) {
+			noVisited.add(firstNode.getAdjacents().get(i));
 		}
 		
+		int m = 1;
 		
-		return MinTreeEdge;
-	}		
-
-	public Edge<T> getMiniumWeightEdge(List<VertexL<T>> visitedVertex, List<VertexL<T>> nonVisitedVertex) {
-		Edge<T> e;
-
-		int min=Integer.MAX_VALUE;
-		
-		T vertex1 = null;
-		T vertex2 = null;
-		
-		for(VertexL<T> visted : visitedVertex){
-			
-			for(VertexL<T> Nonvisted : nonVisitedVertex){
-				
-				int temp=getWeight(visted, Nonvisted);
-				if(temp!=0){
-					if(temp<min){
-						min=temp;
-						vertex1=(T) visted;
-						vertex2=(T) Nonvisted;
-					}
+		while(m == vertexs.size()) {			
+				Adjacent<T>  temp = compareWeight(noVisited);
+				if(!existInList(temp,addVertexVisited)) {
+					addVertexVisited.add(temp.getVertex());
+					cost += temp.getWeight();
+					m++;
+					for(int i = 0; i < temp.getVertex().getAdjacents().size();i++) {
+						noVisited.add(temp.getVertex().getAdjacents().get(i));
+					}	
 				}
-			}	
+			
 		}
-		e=new Edge<T>(vertex1, vertex2, min);
 		
-		return e;
-		
+		return cost;
 	}
-
-	private int getWeight(VertexL<T> visted, VertexL<T> nonvisted) {
+	
+	
+	public boolean existInList(Adjacent<T> temp,List<VertexL<T>> arr) {
+		boolean exist = false;
 		
-		for(Edge<T> e : edges) {
-			if((e.getFirst() == visted && e.getSecond() == nonvisted) || (e.getSecond() == visted && e.getFirst() == nonvisted)) {
-				return e.getWeight();
+		for(int i = 0; i < arr.size() && !exist;i++) {
+			if(temp.getVertex() == arr.get(i)) {
+				exist = true;
 			}
 		}
 		
-		return 0;
+		return exist;
+		
 	}
+	public Adjacent<T> compareWeight(List<Adjacent<T>> m) {
+		Adjacent<T>  s = null;
+		
+		for(int i = 0; i < m.size();i++) {
+			
+			for(int j = 0; j < m.size()-1-i;j++) {
+				
+				if(m.get(j+1).getWeight() < m.get(j).getWeight()) {
+					s = m.get(j);
+				}	
+			}
+		}
+		return s; 
+	}
+	
 
 	@Override
 	public List<Edge<T>> Kruskal() {
