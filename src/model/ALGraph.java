@@ -100,12 +100,12 @@ public class ALGraph<T> implements IGraph<T>{
 			List<Adjacent<T>> theAdjacents = u.getAdjacents();
 			for(int i = 0; i < theAdjacents.size(); i++) {
 				if(theAdjacents.get(i).getVertex().getColor().equals("WHITE")) {
+					theAdjacents.get(i).getVertex().setColor("GRAY");
+					theAdjacents.get(i).getVertex().setDistance(u.getDistance()+1);
+					theAdjacents.get(i).getVertex().setPredecessor(u);
+					q.offer(theAdjacents.get(i).getVertex());
 					
 				}
-				theAdjacents.get(i).getVertex().setColor("GRAY");
-				theAdjacents.get(i).getVertex().setDistance(u.getDistance()+1);
-				theAdjacents.get(i).getVertex().setPredecessor(u);
-				q.offer(theAdjacents.get(i).getVertex());
 			}
 			u.setColor("BLACK");
 		}
@@ -147,18 +147,21 @@ public class ALGraph<T> implements IGraph<T>{
 		//y cada ves mirar cual es el menor entre todos entonces
 		//Como el mira todos los vertices y da el menor entre ellos entonces por eso el while
 		int cost = 0;
-		VertexL<T> firstNode = new VertexL<T>(node);
+		VertexL<T> firstNode = null;
+		boolean finded = false;
+		for(int i = 0; i < vertexs.size() && !finded; i++) {
+			if(vertexs.get(i).getObject().equals(node)) {
+				firstNode = vertexs.get(i);
+				finded = true;
+			}
+		}
 		List<VertexL<T>> addVertexVisited = new ArrayList<>();
 		List<Adjacent<T>> noVisited = new ArrayList<>();
-		
 		addVertexVisited.add(firstNode);
-		
 		for(int i = 0; i < firstNode.getAdjacents().size();i++) {
 			noVisited.add(firstNode.getAdjacents().get(i));
 		}
-		
 		int m = 1;
-		
 		while(m == vertexs.size()) {			
 				Adjacent<T>  temp = compareWeight(noVisited);
 				if(!existInList(temp,addVertexVisited)) {
@@ -169,32 +172,25 @@ public class ALGraph<T> implements IGraph<T>{
 						noVisited.add(temp.getVertex().getAdjacents().get(i));
 					}	
 				}
-			
 		}
-		
 		return cost;
 	}
 	
 	
 	public boolean existInList(Adjacent<T> temp,List<VertexL<T>> arr) {
 		boolean exist = false;
-		
 		for(int i = 0; i < arr.size() && !exist;i++) {
 			if(temp.getVertex() == arr.get(i)) {
 				exist = true;
 			}
 		}
-		
 		return exist;
 		
 	}
 	public Adjacent<T> compareWeight(List<Adjacent<T>> m) {
 		Adjacent<T>  s = null;
-		
 		for(int i = 0; i < m.size();i++) {
-			
 			for(int j = 0; j < m.size()-1-i;j++) {
-				
 				if(m.get(j+1).getWeight() < m.get(j).getWeight()) {
 					s = m.get(j);
 				}	
@@ -244,8 +240,8 @@ public class ALGraph<T> implements IGraph<T>{
 				v2 = vertexs.get(i);
 			}
 		}
-		Adjacent<T> a1 = new Adjacent(v1, weight);
-		Adjacent<T> a2 = new Adjacent(v2, weight);
+		Adjacent<T> a1 = new Adjacent<T>(v1, weight);
+		Adjacent<T> a2 = new Adjacent<T>(v2, weight);
 		v1.getAdjacents().add(a2);
 		v2.getAdjacents().add(a1);
 	}
