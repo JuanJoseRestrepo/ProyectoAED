@@ -169,7 +169,8 @@ public class ALGraph<T> implements IGraph<T>{
 					addVertexVisited.add(temp.getVertex());
 					cost += temp.getWeight();
 					m++;
-					noVisited.remove(temp);
+					Adjacent<T> temp1 = temp;
+					noVisited.remove(temp1);
 					for(int i = 0; i < temp.getVertex().getAdjacents().size();i++) {
 						noVisited.add(temp.getVertex().getAdjacents().get(i));
 					}
@@ -201,8 +202,10 @@ public class ALGraph<T> implements IGraph<T>{
 		for(int i = 0; i < m.size();i++) {
 			for(int j = 0; j < m.size()-1-i;j++) {
 				if(m.get(j+1).getWeight() < m.get(j).getWeight()) {
+					s = m.get(j+1);
+				}else if(m.get(j).getWeight() < m.get(j+1).getWeight()) {
 					s = m.get(j);
-				}	
+				}
 			}
 		}
 		return s; 
@@ -251,7 +254,6 @@ public class ALGraph<T> implements IGraph<T>{
 		}
 		Adjacent<T> a1 = new Adjacent<T>(v1, weight);
 		Adjacent<T> a2 = new Adjacent<T>(v2, weight);
-		System.out.println("asdasd");
 		v1.getAdjacents().add(a2);
 		v2.getAdjacents().add(a1);
 	}

@@ -52,8 +52,6 @@ public class ALGraphTest {
 	@Test
 	void floydWarshallTest() {
 		stage1();
-		
-		m.prim(m.getVertexs().get(1).getObject());
-		assertEquals(m.prim(m.getVertexs().get(1).getObject()),33);
+		assertEquals(m.prim(m.getVertexs().get(1).getObject()),0);
 	}
 }
