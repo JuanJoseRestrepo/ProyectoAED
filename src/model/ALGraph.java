@@ -160,7 +160,7 @@ public class ALGraph<T> implements IGraph<T>{
 			noVisited.add(firstNode.getAdjacents().get(i));
 		}
 		int m = 1;
-		while(m == vertexs.size()) {			
+		while(!noVisited.isEmpty()) {			
 				Adjacent<T>  temp = compareWeight(noVisited);
 				if(!existInList(temp,addVertexVisited)) {
 					addVertexVisited.add(temp.getVertex());
@@ -168,7 +168,9 @@ public class ALGraph<T> implements IGraph<T>{
 					m++;
 					for(int i = 0; i < temp.getVertex().getAdjacents().size();i++) {
 						noVisited.add(temp.getVertex().getAdjacents().get(i));
-					}	
+					}
+				}else {
+					noVisited.remove(temp.getVertex());
 				}
 		}
 		return cost;
@@ -303,7 +305,7 @@ public class ALGraph<T> implements IGraph<T>{
 		if(firstSet.compareTo(secondSet) < 0) {
 			firstSet.union(secondSet);
 		} else {
-			secondSet.union(secondSet);
+			secondSet.union(firstSet);
 		}
 	}
 
