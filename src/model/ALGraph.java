@@ -6,8 +6,6 @@ import java.util.List;
 import java.util.PriorityQueue;
 import java.util.Queue;
 
-import sun.security.provider.certpath.AdjacencyList;
-
 public class ALGraph<T> implements IGraph<T>{
 	
 	private List<VertexL<T>> vertexs;
@@ -246,13 +244,22 @@ public class ALGraph<T> implements IGraph<T>{
 		v2.getAdjacents().add(a1);
 	}
 	
-	public String printPath(VertexL<T> origin, VertexL<T> destiny) {
+	public String printPath(T originO, T destinyO) {
+		VertexL<T> origin = null;
+		VertexL<T> destiny = null;
+		for(int i = 0; i < vertexs.size(); i++) {
+			if(vertexs.get(i).getObject().equals(originO)) {
+				origin = vertexs.get(i);
+			} else if(vertexs.get(i).getObject().equals(destinyO)) {
+				destiny = vertexs.get(i);
+			}
+		}
 		if(destiny.equals(origin)) {
 			return origin.toString();
 		} else if(destiny.getPredecessor() == null) {
 			return "There is not path";
 		} else {
-			return printPath(origin, destiny.getPredecessor())+" -> "+destiny.toString(); 
+			return printPath(originO, destiny.getPredecessor().getObject())+" -> " + destiny.toString(); 
 		}
 	}
 

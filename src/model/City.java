@@ -59,14 +59,43 @@ public class City {
 		adjacentMatrix.delete(toDelete);
 	}
 	
-	public void BFS(String name) {
-		Station origin = null;
-		boolean finded = false;
-		for(int i = 0; i < adjacentList.getVertexs().size() && !finded; i++) {
-			if(adjacentList.getVertexs().get(i).getObject().toString().equals(name)) {
-				origin = adjacentList.getVertexs().get(i).getObject();
-				finded = true;
+	public String minimumDistanceEdges(String origin, String destiny) {
+		String msg = "";
+		Station originS = null;
+		Station destinyS = null;
+		for(int i = 0; i < adjacentList.getVertexs().size(); i++) {
+			if(adjacentList.getVertexs().get(i).getObject().toString().equals(origin)) {
+				originS = adjacentList.getVertexs().get(i).getObject();
+			} else if(adjacentList.getVertexs().get(i).getObject().toString().equals(destiny)) {
+				destinyS = adjacentList.getVertexs().get(i).getObject();
 			}
 		}
+		adjacentList.BFS(originS);
+		adjacentMatrix.BFS(originS);
+		msg += "With the adjacent list:"+"\n";
+		msg += adjacentList.printPath(originS, destinyS) + "\n";
+		msg += "With the adjacent matrix:"+"\n";
+		msg += adjacentMatrix.printPath(originS, destinyS) + "\n";
+		return msg;
+	}
+	
+	public String minimumDistanceWeight(String origin, String destiny) {
+		String msg = "";
+		Station originS = null;
+		Station destinyS = null;
+		for(int i = 0; i < adjacentList.getVertexs().size(); i++) {
+			if(adjacentList.getVertexs().get(i).getObject().toString().equals(origin)) {
+				originS = adjacentList.getVertexs().get(i).getObject();
+			} else if(adjacentList.getVertexs().get(i).getObject().toString().equals(destiny)) {
+				destinyS = adjacentList.getVertexs().get(i).getObject();
+			}
+		}
+		adjacentList.Dijkstra(originS);
+		adjacentMatrix.Dijkstra(originS);
+		msg += "With the adjacent list:"+"\n";
+		msg += adjacentList.printPath(originS, destinyS) + "\n";
+		msg += "With the adjacent matrix:"+"\n";
+		msg += adjacentMatrix.printPath(originS, destinyS) + "\n";
+		return msg;
 	}
 }

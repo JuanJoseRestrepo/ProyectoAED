@@ -228,13 +228,22 @@ public class MAGraph<T> implements IGraph<T>{
 		matrix[two2.getPosition()][one1.getPosition()] = weight;
 	}
 	
-	public String printPath(VertexM<T> origin, VertexM<T> destiny) {
+	public String printPath(T originO, T destinyO) {
+		VertexM<T> origin = null;
+		VertexM<T> destiny = null;
+		for(int i = 0; i < vertexs.size(); i++) {
+			if(vertexs.get(i).getObject().equals(originO)) {
+				origin = vertexs.get(i);
+			} else if(vertexs.get(i).getObject().equals(destinyO)) {
+				destiny = vertexs.get(i);
+			}
+		}
 		if(destiny.equals(origin)) {
 			return origin.toString();
 		} else if(destiny.getPredecessor() == null) {
 			return "There is not path";
 		} else {
-			return printPath(origin, destiny.getPredecessor())+" -> "+destiny.toString(); 
+			return printPath(originO, destiny.getPredecessor().getObject())+" -> " + destiny.toString(); 
 		}
 	}
 

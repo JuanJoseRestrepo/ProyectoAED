@@ -1,4 +1,4 @@
-package Test;
+package test;
 import model.MAGraph;
 import model.VertexM;
 import model.City;
@@ -6,7 +6,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
 
-class MAGraphTest {
+public class MAGraphTest {
 
 	@Test
 	void test() {

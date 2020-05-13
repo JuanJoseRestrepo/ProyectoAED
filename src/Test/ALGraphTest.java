@@ -1,15 +1,13 @@
-package Test;
+package test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
 
 import model.ALGraph;
-import model.City;
-import model.MAGraph;
 import model.Station;
 
-class ALGraphTest {
+public class ALGraphTest {
 	
 	private ALGraph<Station> m;
 	
@@ -55,5 +53,4 @@ class ALGraphTest {
 	void floydWarshallTest() {
 		
 	}
-
 }
