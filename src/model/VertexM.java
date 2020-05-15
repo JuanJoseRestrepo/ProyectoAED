@@ -1,6 +1,6 @@
 package model;
 
-public class VertexM<T> {
+public class VertexM<T> implements Comparable<VertexM<T>>{
 	
 	private T object;
 	private VertexM<T> predecessor;
@@ -65,5 +65,10 @@ public class VertexM<T> {
 	@Override
 	public String toString() {
 		return object.toString();
+	}
+
+	@Override
+	public int compareTo(VertexM<T> o) {
+		return distance - o.distance;
 	}
 }

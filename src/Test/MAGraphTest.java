@@ -1,4 +1,4 @@
-package Test;
+package test;
 import model.MAGraph;
 import model.VertexM;
 import model.City;
