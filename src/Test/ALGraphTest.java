@@ -69,22 +69,23 @@ public class ALGraphTest {
 	}
 	
 	private void stage3() {
-		Station s1 = new Station("0");
-		Station s2 = new Station("1");
-		Station s3 = new Station("2");
-		Station s4 = new Station("3");
-		Station s5 = new Station("4");
+		m = new ALGraph<Station>();
+		Station s0 = new Station("0");
+		Station s1 = new Station("1");
+		Station s2 = new Station("2");
+		Station s3 = new Station("3");
+		Station s4 = new Station("4");
+		m.add(s0);
 		m.add(s1);
 		m.add(s2);
 		m.add(s3);
 		m.add(s4);
-		m.add(s5);
-		m.connect(s1, s2, 3);
-		m.connect(s1, s3, 7);
-		m.connect(s2, s4, 5);
-		m.connect(s4, s3, 4);
-		m.connect(s4, s5, 6);
-		m.connect(s3, s5, 8);
+		m.connect(s0, s1, 3);
+		m.connect(s0, s2, 7);
+		m.connect(s1, s3, 5);
+		m.connect(s3, s2, 4);
+		m.connect(s3, s4, 6);
+		m.connect(s2, s4, 8);
 	}
 
 	@Test
