@@ -1,4 +1,4 @@
-package test;
+package Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -67,6 +67,25 @@ public class ALGraphTest {
 		m.connect(s3, s6, 2);
 		m.connect(s5, s6, 1);
 	}
+	
+	private void stage3() {
+		Station s1 = new Station("0");
+		Station s2 = new Station("1");
+		Station s3 = new Station("2");
+		Station s4 = new Station("3");
+		Station s5 = new Station("4");
+		m.add(s1);
+		m.add(s2);
+		m.add(s3);
+		m.add(s4);
+		m.add(s5);
+		m.connect(s1, s2, 3);
+		m.connect(s1, s3, 7);
+		m.connect(s2, s4, 5);
+		m.connect(s4, s3, 4);
+		m.connect(s4, s5, 6);
+		m.connect(s3, s5, 8);
+	}
 
 	@Test
 	void DFSTest() {
@@ -82,8 +101,45 @@ public class ALGraphTest {
 	}
 	@Test
 	void floydWarshallTest() {
-		stage1();
-		
+		stage3();
+		int[][] mat = new int[5][5];
+		mat[0][0] = 0;
+		mat[0][1] = 3;
+		mat[0][2] = 7;
+		mat[0][3] = 8;
+		mat[0][4] = 14;
+		mat[1][1] = 0;
+		mat[1][0] = 3;
+		mat[1][2] = 9;
+		mat[1][3] = 5;
+		mat[1][4] = 11;
+		mat[2][2] = 0;
+		mat[2][0] = 7;
+		mat[2][1] = 9;
+		mat[2][3] = 4;
+		mat[2][4] = 8;
+		mat[3][3] = 0;
+		mat[3][0] = 8;
+		mat[3][1] = 5;
+		mat[3][2] = 4;
+		mat[3][4] = 6;
+		mat[4][4] = 0;
+		mat[4][0] = 14;
+		mat[4][1] = 11;
+		mat[4][2] = 8;
+		mat[4][3] = 6;
+		int[][] matF = m.floydWarshall();
+		boolean ce = false;
+		for (int i = 0; i < mat.length && !ce; i++) {
+			for (int j = 0; j < mat.length && !ce; j++) {
+				if(mat[i][j]==matF[i][j]) {
+					
+				}else {
+					ce = true;
+				}
+			}
+		}
+		assertTrue(!ce);
 	}
 	@Test 
 	void kruskalTest() {
