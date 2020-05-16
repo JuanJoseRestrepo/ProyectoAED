@@ -1,4 +1,4 @@
-package Test;
+package test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -129,13 +129,11 @@ public class ALGraphTest {
 		mat[4][1] = 11;
 		mat[4][2] = 8;
 		mat[4][3] = 6;
-		int[][] matF = m.floydWarshall();
+		long[][] matF = m.floydWarshall();
 		boolean ce = false;
 		for (int i = 0; i < mat.length && !ce; i++) {
 			for (int j = 0; j < mat.length && !ce; j++) {
-				if(mat[i][j]==matF[i][j]) {
-					
-				}else {
+				if(mat[i][j]!=matF[i][j]) {
 					ce = true;
 				}
 			}

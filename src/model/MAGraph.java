@@ -307,8 +307,8 @@ public class MAGraph<T> implements IGraph<T>{
 	}
 
 	@Override
-	public int[][] floydWarshall() {
-		int[][] min = new int[vertexs.size()][vertexs.size()];
+	public long[][] floydWarshall() {
+		long[][] min = new long[vertexs.size()][vertexs.size()];
 		for(int i = 0; i < vertexs.size(); i++) {
 			for(int j = 0; j < vertexs.size(); j++) {
 				if(i == j) {
