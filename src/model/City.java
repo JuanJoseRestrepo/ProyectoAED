@@ -26,6 +26,19 @@ public class City {
 		this.adjacentMatrix = adjacentMatrix;
 	}
 	
+	public boolean existCity(String msj) {
+		boolean t = false;
+		
+		for(int i = 0; i < adjacentList.getVertexs().size() && !t;i++) {
+			if(adjacentList.getVertexs().get(i).getObject().getName().equalsIgnoreCase(msj)) {
+				t = true;
+			}
+			
+		}
+		
+		return t;
+	}
+	
 	public void addStation(String name) {
 		Station toAdd = new Station(name);
 		adjacentList.add(toAdd);

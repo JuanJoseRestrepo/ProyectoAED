@@ -54,7 +54,7 @@ public class ALGraph<T> implements IGraph<T>{
 	@Override
 	public void add(T toAdd) {
 		VertexL<T> theVertex = new VertexL<T>(toAdd);
-		vertexs.add(theVertex);
+		vertexs.add(theVertex); 
 	}
 
 	@Override
@@ -77,7 +77,7 @@ public class ALGraph<T> implements IGraph<T>{
 	public T consult(String theVertex) {
 		return null;
 	}
-
+ 
 	@Override
 	public void BFS(T origin) {
 		Queue<VertexL<T>> q = new LinkedList<VertexL<T>>();
