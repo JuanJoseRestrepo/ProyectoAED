@@ -14,6 +14,6 @@ public interface IGraph<T> {
 	public void Dijkstra(T origin);
 	public void makeSet(T toAdd);
 	public void union(T one, T two);
-	public int[][] floydWarshall();
+	public long[][] floydWarshall();
 	public Set<T> findSet(T toFind);
 }
