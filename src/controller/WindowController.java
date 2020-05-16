@@ -4,7 +4,7 @@ import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
-import thread.ThreadTime;
+import Thread.ThreadTime;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -293,7 +293,7 @@ public class WindowController implements Initializable{
 				}
 				
 			}
-				
+				 
 			ciudad.delete(m1.get().getName());
 			paneGraph.getChildren().clear();
 			generarGrafico();
