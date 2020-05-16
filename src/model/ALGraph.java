@@ -252,7 +252,7 @@ public class ALGraph<T> implements IGraph<T>{
 		Adjacent<T> a2 = new Adjacent<T>(v2, weight);
 		v1.getAdjacents().add(a2);
 		v2.getAdjacents().add(a1);
-	}
+	} 
 	
 	public String printPath(T originO, T destinyO) {
 		VertexL<T> origin = null;
