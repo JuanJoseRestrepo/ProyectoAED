@@ -158,7 +158,7 @@ public class ALGraphTest {
 	void dijkstraTest() {
 		stage2();
 		m.Dijkstra(m.getVertexs().get(0).getObject());
-		int t = m.getVertexs().get(0).getDistance();
-		assertTrue(t==0);
+		int t = m.getVertexs().get(1).getDistance();
+		assertTrue(t==4);
 	}
 }
