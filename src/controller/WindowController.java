@@ -1,6 +1,7 @@
 package controller;
 
 import java.net.URL;
+import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -29,6 +30,7 @@ import javafx.scene.shape.ArcType;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import model.City;
+import model.Edge;
 import model.IGraph;
 import model.Station;
 
@@ -203,6 +205,13 @@ public class WindowController implements Initializable{
 			gc.strokeOval(446, 203, 70, 70);	
 			gc.strokeText(stacion[4].getName(),454,206);
 		}
+		
+		if(stacion[0] !=null && stacion[1] != null &&edgeExist(stacion[0],stacion[1]) ) {
+			
+			gc.strokeLine(30,50, 30, 210);
+			gc.strokeText(Integer.toString(ciudad.getAdjacentList().getEdges().get(0).getWeight()), 25, 40);
+			
+		}
 			
 			
 		}catch(NullPointerException e) {
@@ -210,6 +219,21 @@ public class WindowController implements Initializable{
 		}catch(IndexOutOfBoundsException e) {
 			
 		}
+	}
+	
+	public boolean edgeExist(Station m, Station m1) {
+		boolean t = false;
+		List<Edge<Station>> m2 = ciudad.getAdjacentList().getEdges();
+		for(int i = 0; i < m2.size() && !t;i++) {
+			if((m2.get(0).getFirst() == m) && (m2.get(0).getSecond() == m1)) {
+				t = true;
+			}else if((m2.get(0).getFirst() == m1) && (m2.get(0).getSecond() == m)) {
+				t = true;
+			}	
+		}
+		
+		return t;
+		
 	}
 	
 	public void showAlert(int msg) {
@@ -307,6 +331,37 @@ public class WindowController implements Initializable{
 		}catch(NullPointerException e1) {
 			showAlert(5);
 		}
+	}
+	
+	public void connectToStation(ActionEvent e) {
+		Dialog<String> dialog = new Dialog<>();
+		dialog.setTitle("");
+		dialog.setHeaderText("Please type the City name, to be deleted");
+		dialog.setResizable(false);
+		 
+		Label label1 = new Label("City name 1: ");
+		TextField text1 = new TextField();
+		Label label2 = new Label("City name 2: ");
+		TextField text2 = new TextField();
+		Label label3 = new Label("Weight: ");
+		TextField text3 = new TextField();
+		         
+		GridPane grid = new GridPane();
+		grid.add(label1, 1, 1);
+		grid.add(text1, 2, 1);
+		grid.add(label2,1,2);
+		grid.add(text2,2,2);
+		grid.add(label3,1, 3);
+		grid.add(text3,2,3);
+		dialog.getDialogPane().setContent(grid);
+		
+		ButtonType buttonTypeOk = new ButtonType("Accept", ButtonData.OK_DONE);
+		dialog.getDialogPane().getButtonTypes().add(buttonTypeOk);
+		
+		
+		setCss(dialog);
+		
+		Optional<String> m1 = dialog.showAndWait();
 	}
 	
 	

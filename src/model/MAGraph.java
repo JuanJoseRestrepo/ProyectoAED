@@ -319,7 +319,7 @@ public class MAGraph<T> implements IGraph<T>{
 					} else {
 						min[i][j] = matrix[i][j];
 					}
-				}
+				} 
 			}
 		}
 		for(int k = 0; k < vertexs.size(); k++) {

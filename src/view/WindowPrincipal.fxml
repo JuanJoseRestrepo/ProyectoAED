@@ -10,7 +10,7 @@
       <Label layoutX="386.0" layoutY="25.0" text="TIME " />
       <Button fx:id="addVertex" layoutX="39.0" layoutY="21.0" mnemonicParsing="false" onAction="#addVertexButton" text="Add Station" />
       <Button fx:id="deleteStation" layoutX="143.0" layoutY="21.0" mnemonicParsing="false" onAction="#DelateVertexButton" text="Delete Station" />
-      <Button fx:id="addEdge" layoutX="261.0" layoutY="21.0" mnemonicParsing="false" text="Connect Station" />
+      <Button fx:id="addEdge" layoutX="261.0" layoutY="21.0" mnemonicParsing="false" onAction="#connectToStation" text="Connect Station" />
       <Pane fx:id="paneGraph" layoutX="12.0" layoutY="69.0" prefHeight="317.0" prefWidth="574.0" />
    </children>
 </Pane>
