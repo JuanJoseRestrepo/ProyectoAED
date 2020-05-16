@@ -99,11 +99,6 @@ public class MAGraph<T> implements IGraph<T>{
 	}
 	
 	@Override
-	public T consult(String theVertex) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	@Override
 	public void BFS(T origin) {
 		Queue<VertexM<T>> q = new LinkedList<VertexM<T>>();
 		for(int i = 0; i < vertexs.size(); i++) {
@@ -294,7 +289,7 @@ public class MAGraph<T> implements IGraph<T>{
 		if(firstSet.compareTo(secondSet) < 0) {
 			firstSet.union(secondSet);
 		} else {
-			secondSet.union(secondSet);
+			secondSet.union(firstSet);
 		}
 	}
 

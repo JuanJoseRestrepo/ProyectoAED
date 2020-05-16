@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
-public class VertexL<T> implements Comparator<VertexL<T>>{
+public class VertexL<T> implements Comparable<VertexL<T>>{
 	
 	private T object;
 	private String color;
@@ -81,11 +81,6 @@ public class VertexL<T> implements Comparator<VertexL<T>>{
 	public String toString() {
 		return object.toString();
 	}
-
-	@Override
-	public int compare(VertexL<T> arg0, VertexL<T> arg1) {
-		return arg0.distance - arg0.distance;
-	}
 	
 	public int weight(VertexL<T> vertex) {
 		boolean finded = false;
@@ -97,5 +92,10 @@ public class VertexL<T> implements Comparator<VertexL<T>>{
 			}
 		}
 		return weight;
+	}
+
+	@Override
+	public int compareTo(VertexL<T> arg0) {
+		return distance - arg0.distance;
 	}
 }

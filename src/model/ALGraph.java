@@ -72,13 +72,9 @@ public class ALGraph<T> implements IGraph<T>{
 			}
 		}
 	}
-
-	@Override
-	public T consult(String theVertex) {
-		return null;
-	}
  
 	@Override
+
 	public void BFS(T origin) {
 		Queue<VertexL<T>> q = new LinkedList<VertexL<T>>();
 		for(int i = 0; i < vertexs.size(); i++) {
