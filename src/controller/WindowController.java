@@ -3,8 +3,7 @@ package controller;
 import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;
-
-import Thread.ThreadTime;
+import thread.ThreadTime;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -33,7 +32,7 @@ import model.IGraph;
 import model.Station;
 
 public class WindowController implements Initializable{
-	
+
 	@FXML
 	private Label labelClock;
 	@FXML
@@ -43,35 +42,38 @@ public class WindowController implements Initializable{
 	@FXML
 	private Button deleteStation;
 	@FXML
+	private Button distance;
+	@FXML
+	private Button stations;
+	@FXML
 	private Pane paneGraph;
 	@FXML
 	private Pane principalPane;
 
 	private ThreadTime time;
-	
+
 	private Canvas canvas;
-	
+
 	private GraphicsContext gc;
-	
+
 	private City ciudad;
-	
+
 	private Station[] stacion;
-	
+
 	public WindowController() {
 		labelClock = new Label();
 		startClock();
 		ciudad = new City();
 		stacion = new Station[5];
 	}
-	
-	
+
+
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 
 	}
-	
+
 	public <T extends Dialog<?>> void setCss(T dialog) {
-		
 		DialogPane dialogPane = dialog.getDialogPane();
 		dialogPane.getStylesheets().add(getClass().getResource("/view/application.css").toExternalForm());
 		dialogPane.getStyleClass().add("dialog");
@@ -79,139 +81,133 @@ public class WindowController implements Initializable{
 	}
 
 	public void uptadeTime(String time) {
-		
 		labelClock.setText(time);
-		
 	}
-	
+
 	public void addVertexButton(ActionEvent e) {
-		
 		Dialog<Station> dialog = new Dialog<>();
 		dialog.setTitle("");
 		dialog.setHeaderText("Please type the City name");
 		dialog.setResizable(false);
-		 
 		Label label1 = new Label("City name: ");
-		TextField text1 = new TextField();
-		         
+		TextField text1 = new TextField();      
 		GridPane grid = new GridPane();
 		grid.add(label1, 1, 1);
 		grid.add(text1, 2, 1);
 		dialog.getDialogPane().setContent(grid);
-		
+
 		ButtonType buttonTypeOk = new ButtonType("Accept", ButtonData.OK_DONE);
 		dialog.getDialogPane().getButtonTypes().add(buttonTypeOk);
-		
+
 		dialog.setResultConverter(new Callback<ButtonType, Station>() {
-		    public Station call(ButtonType b) {
-		 
-		    	if(b == buttonTypeOk) {
-		    		if(!text1.getText().isEmpty()) {
-		    			Station m = new Station(text1.getText());
-		    			
-		    			return m;
-		    			
-		    		}else {
-		    			showAlert(4);
-		    		}
-		    	}
-		    	
-		        return null;
-		    }
+			public Station call(ButtonType b) {
+
+				if(b == buttonTypeOk) {
+					if(!text1.getText().isEmpty()) {
+						Station m = new Station(text1.getText());
+
+						return m;
+
+					}else {
+						showAlert(4);
+					}
+				}
+
+				return null;
+			}
 		});
 		setCss(dialog);
 		Optional<Station> m1 = dialog.showAndWait();
-		
+
 		if(m1.isPresent()) {
-			
+
 			if(ciudad.getAdjacentList().getVertexs().size() <= 5) {
-			
+
 				if(ciudad.getAdjacentList().getVertexs().isEmpty()) {
 					stacion[0] = m1.get();
 				}else {
-				boolean t = false;
-			for(int i = 0; i < stacion.length && !t;i++) {
-				if(stacion[i] == null){
-					t = true;
-					System.out.println("asda");
-					stacion[i] = m1.get();
+					boolean t = false;
+					for(int i = 0; i < stacion.length && !t;i++) {
+						if(stacion[i] == null){
+							t = true;
+							System.out.println("asda");
+							stacion[i] = m1.get();
+						}
 					}
 				}
-			}
-			ciudad.addStation(m1.get().getName());
-			generarGrafico();
-			
+				ciudad.addStation(m1.get().getName());
+				generarGrafico();
+
 			}else {
 				showAlert(1);
 			}
 		}else {
 			showAlert(3);
 		}
-		
-		
+
+
 	}
-	
-	
+
+
 	public void generarGrafico() {
 		try {
 			canvas = new Canvas(paneGraph.getWidth(),paneGraph.getHeight());
 			gc = canvas.getGraphicsContext2D();
 			paneGraph.getChildren().add(canvas);
 			paneGraph.setOnMouseClicked(new EventHandler<MouseEvent>() {
-			    @Override
-			    public void handle(MouseEvent event) {
-			        System.out.println(event.getSceneX());
-			        System.out.println(event.getSceneY());
-			    }
+				@Override
+				public void handle(MouseEvent event) {
+					System.out.println(event.getSceneX());
+					System.out.println(event.getSceneY());
+				}
 			});
 			gc.clearRect(0,0,canvas.getWidth(), canvas.getHeight());
 			gc.beginPath(); 
-			
-		if(stacion[0] != null) {
+
+			if(stacion[0] != null) {
 				gc.setFill(Color.WHITE);
 				gc.fillOval(10, 10, 70, 70);
 				gc.strokeOval(10,10, 70, 70);
 				gc.strokeText(stacion[0].getName(),25,50);
-				
-		}
-			
-		if(stacion[1] != null) {
+			}
+
+			if(stacion[1] != null) {
 				gc.setFill(Color.WHITE);
 				gc.fillOval(210, 10, 70, 70);
 				gc.strokeOval(210,10, 70, 70);
 				gc.strokeText(stacion[1].getName(),225,50);
-		}
-			
-			
-		if(stacion[2] != null) {
-			gc.setFill(Color.WHITE);
-			gc.fillOval(10, 210, 70, 70);
-			gc.strokeOval(10, 210, 70, 70);
-			gc.strokeText(stacion[2].getName(),25,235);
-		}
-			
-		if(stacion[3]!= null) {
-			gc.setFill(Color.WHITE);
-			gc.fillOval(210, 210, 70, 70);
-			gc.strokeOval(210, 210, 70, 70);	
-			gc.strokeText(stacion[3].getName(),225,235);
-		}
-			
-		if(stacion[4] != null) {
-			gc.setFill(Color.WHITE);
-			gc.fillOval(446, 203, 70, 70);
-			gc.strokeOval(446, 203, 70, 70);	
-			gc.strokeText(stacion[4].getName(),454,206);
-		}
-			
-			
+			}
+
+
+			if(stacion[2] != null) {
+				gc.setFill(Color.WHITE);
+				gc.fillOval(10, 210, 70, 70);
+				gc.strokeOval(10, 210, 70, 70);
+				gc.strokeText(stacion[2].getName(),25,235);
+			}
+
+			if(stacion[3]!= null) {
+				gc.setFill(Color.WHITE);
+				gc.fillOval(210, 210, 70, 70);
+				gc.strokeOval(210, 210, 70, 70);	
+				gc.strokeText(stacion[3].getName(),225,235);
+			}
+
+			if(stacion[4] != null) {
+				gc.setFill(Color.WHITE);
+				gc.fillOval(446, 203, 70, 70);
+				gc.strokeOval(446, 203, 70, 70);	
+				gc.strokeText(stacion[4].getName(),454,206);
+			}
+
+
 		}catch(NullPointerException e) {
-			
+
 		}catch(IndexOutOfBoundsException e) {
-			
+
 		}
 	}
-	
+
 	public void showAlert(int msg) {
 		Alert gameOver = new Alert(AlertType.INFORMATION);
 		gameOver.setTitle("ERROR");
@@ -242,77 +238,118 @@ public class WindowController implements Initializable{
 		default:
 			break;
 		}
-		
+
 		gameOver.showAndWait();
 	} 
-	
+
 	public void DelateVertexButton(ActionEvent e) {
 		try {
-		Dialog<Station> dialog = new Dialog<>();
-		dialog.setTitle("");
-		dialog.setHeaderText("Please type the City name, to be deleted");
-		dialog.setResizable(false);
-		 
-		Label label1 = new Label("City name: ");
-		TextField text1 = new TextField();
-		         
-		GridPane grid = new GridPane();
-		grid.add(label1, 1, 1);
-		grid.add(text1, 2, 1);
-		dialog.getDialogPane().setContent(grid);
-		
-		ButtonType buttonTypeOk = new ButtonType("Accept", ButtonData.OK_DONE);
-		dialog.getDialogPane().getButtonTypes().add(buttonTypeOk);
-		
-		dialog.setResultConverter(new Callback<ButtonType, Station>() {
-		    public Station call(ButtonType b) {
-		 
-		    	if(b == buttonTypeOk) {
-		    		if(!text1.getText().isEmpty()) {
-		    			Station m = new Station(text1.getText());
-		    			
-		    			return m;
-		    			
-		    		}else {
-		    			showAlert(4);
-		    		}
-		    	}
-		    	
-		        return null;
-		    }
-		});
-		setCss(dialog);
-		Optional<Station> m1 = dialog.showAndWait();
-		
-		if(m1.isPresent()) {
-			
-			if(ciudad.getAdjacentList().getVertexs().size() <= 5) {
-			for(int i = 0; i < ciudad.getAdjacentList().getVertexs().size();i++) {
-				if(m1.get().getName().equalsIgnoreCase(stacion[i].getName())) {
-					stacion[i] = null;
+			Dialog<Station> dialog = new Dialog<>();
+			dialog.setTitle("");
+			dialog.setHeaderText("Please type the City name, to be deleted");
+			dialog.setResizable(false);
+
+			Label label1 = new Label("City name: ");
+			TextField text1 = new TextField();
+
+			GridPane grid = new GridPane();
+			grid.add(label1, 1, 1);
+			grid.add(text1, 2, 1);
+			dialog.getDialogPane().setContent(grid);
+
+			ButtonType buttonTypeOk = new ButtonType("Accept", ButtonData.OK_DONE);
+			dialog.getDialogPane().getButtonTypes().add(buttonTypeOk);
+
+			dialog.setResultConverter(new Callback<ButtonType, Station>() {
+				public Station call(ButtonType b) {
+
+					if(b == buttonTypeOk) {
+						if(!text1.getText().isEmpty()) {
+							Station m = new Station(text1.getText());
+
+							return m;
+
+						}else {
+							showAlert(4);
+						}
+					}
+
+					return null;
 				}
-				
-			}
-				 
-			ciudad.delete(m1.get().getName());
-			paneGraph.getChildren().clear();
-			generarGrafico();
+			});
+			setCss(dialog);
+			Optional<Station> m1 = dialog.showAndWait();
+
+			if(m1.isPresent()) {
+
+				if(ciudad.getAdjacentList().getVertexs().size() <= 5) {
+					for(int i = 0; i < ciudad.getAdjacentList().getVertexs().size();i++) {
+						if(m1.get().getName().equalsIgnoreCase(stacion[i].getName())) {
+							stacion[i] = null;
+						}
+
+					}
+
+					ciudad.delete(m1.get().getName());
+					paneGraph.getChildren().clear();
+					generarGrafico();
+				}else {
+					showAlert(1);
+				}
 			}else {
-				showAlert(1);
+				showAlert(3);
 			}
-		}else {
-			showAlert(3);
-		}
-		
+
 		}catch(NullPointerException e1) {
 			showAlert(5);
 		}
 	}
-	
-	
+
+
 	public void startClock() {
 		time = new ThreadTime(this);
 		time.start();
 	}
+	
+	public void bfsButton() {
+		try {
+			Dialog<Station> dialog = new Dialog<>();
+			dialog.setTitle("");
+			dialog.setHeaderText("Please type the station name");
+			dialog.setResizable(false);
+			Label label1 = new Label("Station name: ");
+			TextField text1 = new TextField();
+			dialog.setTitle("");
+			dialog.setHeaderText("Please type the station name");
+			dialog.setResizable(false);
+			Label label2 = new Label("Station name: ");
+			TextField text2 = new TextField();
+			GridPane grid = new GridPane();
+			grid.add(label1, 1, 1);
+			grid.add(text1, 2, 1);
+			grid.add(label2, 3, 1);
+			grid.add(text2, 4, 1);
+			dialog.getDialogPane().setContent(grid);
+			ButtonType buttonTypeOk = new ButtonType("Accept", ButtonData.OK_DONE);
+			dialog.getDialogPane().getButtonTypes().add(buttonTypeOk);
+			dialog.setResultConverter(new Callback<ButtonType, Station>() {
+				public Station call(ButtonType b) {
+					if(b == buttonTypeOk) {
+						if(!text1.getText().isEmpty()) {
+							Station m = new Station(text1.getText());
+							return m;
+						}else {
+							showAlert(4);
+						}
+					}
 
+					return null;
+				}
+			});
+			setCss(dialog);
+			Optional<Station> m1 = dialog.showAndWait();
+		}catch(NullPointerException e1) {
+			showAlert(5);
+		}
+	}
 }

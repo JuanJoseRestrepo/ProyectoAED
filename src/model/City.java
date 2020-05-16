@@ -1,5 +1,8 @@
 package model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class City {
 	
 	private ALGraph<Station> adjacentList;
@@ -110,5 +113,16 @@ public class City {
 		msg += "With the adjacent matrix:"+"\n";
 		msg += adjacentMatrix.printPath(originS, destinyS) + "\n";
 		return msg;
+	}
+	
+	public boolean cityExist(String city) {
+		boolean finded = false;
+		List<VertexL<Station>> vertexs = adjacentList.getVertexs();
+		for(int i = 0; i < vertexs.size() && !finded; i++) {
+			if(vertexs.get(i).getObject().toString().equals(city)) {
+				finded = true;
+			}
+		}
+		return finded;
 	}
 }
