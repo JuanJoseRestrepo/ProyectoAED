@@ -133,13 +133,14 @@ public class ALGraphTest {
 		boolean ce = false;
 		for (int i = 0; i < mat.length && !ce; i++) {
 			for (int j = 0; j < mat.length && !ce; j++) {
-				if(mat[i][j]!=matF[i][j]) {
+				if(mat[i][j] != matF[i][j]) {
 					ce = true;
 				}
 			}
 		}
 		assertTrue(!ce);
 	}
+	
 	@Test 
 	void kruskalTest() {
 		int camino =0;
@@ -149,9 +150,8 @@ public class ALGraphTest {
 			camino += m1.get(i).getWeight();
 		}
 		assertTrue(camino==43);
-		
-		
 	}
+	
 	@Test
 	void dijkstraTest() {
 		stage2();

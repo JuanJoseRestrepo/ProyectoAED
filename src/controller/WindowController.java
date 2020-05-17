@@ -165,6 +165,7 @@ public class WindowController implements Initializable{
 					}
 				}
 			}
+			gc.setStroke(Color.WHITE);
 			for(int i = 0; i < stacion.length; i++) {
 				for(int j = i; j < stacion.length; j++) {
 					if(stacion[i] !=null && stacion[j] != null && edgeExist(stacion[i],stacion[j]) ) {

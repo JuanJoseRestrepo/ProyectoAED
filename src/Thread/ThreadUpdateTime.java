@@ -16,5 +16,4 @@ public class ThreadUpdateTime extends Thread{
 	public void run() {
 		m.uptadeTime(time);
 	}
-	
 }

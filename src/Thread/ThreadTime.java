@@ -9,11 +9,11 @@ import javafx.application.Platform;
 
 public class ThreadTime extends Thread{
 
-	String hour;
-	String minutes;
-	String seconds;
-	String timeDay;
-	Calendar calendar;
+	private String hour;
+	private String minutes;
+	private String seconds;
+	private String timeDay;
+	private Calendar calendar;
 	private WindowController m;
 	
 	
