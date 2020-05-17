@@ -1,5 +1,8 @@
 package model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class City {
 	
 	private ALGraph<Station> adjacentList;
@@ -37,6 +40,24 @@ public class City {
 		}
 		
 		return t;
+	}
+	
+	public int getWeightFromStation(Station one, Station two) {
+		List<Edge<Station>> m = adjacentList.getEdges();
+		int peso = 0;
+		boolean t = false;
+		for(int i = 0; i < m.size() && !t;i++) {
+			
+			if((m.get(i).getFirst().getName().equalsIgnoreCase(one.getName())) &&(m.get(i).getSecond().getName().equalsIgnoreCase(two.getName()))) {
+				peso = m.get(i).getWeight();
+				t = true;
+			}else if((m.get(i).getFirst().getName().equalsIgnoreCase(two.getName())) &&(m.get(i).getSecond().getName().equalsIgnoreCase(one.getName()))) {
+				peso = m.get(i).getWeight();
+				t = true;
+			}
+			
+		}
+		return peso;
 	}
 	
 	public void addStation(String name) {
@@ -110,5 +131,16 @@ public class City {
 		msg += "With the adjacent matrix:"+"\n";
 		msg += adjacentMatrix.printPath(originS, destinyS) + "\n";
 		return msg;
+	}
+	
+	public boolean cityExist(String city) {
+		boolean finded = false;
+		List<VertexL<Station>> vertexs = adjacentList.getVertexs();
+		for(int i = 0; i < vertexs.size() && !finded; i++) {
+			if(vertexs.get(i).getObject().toString().equals(city)) {
+				finded = true;
+			}
+		}
+		return finded;
 	}
 }

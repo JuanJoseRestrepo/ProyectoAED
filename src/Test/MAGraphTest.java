@@ -1,4 +1,4 @@
-package Test;
+package test;
 import model.MAGraph;
 import model.Station;
 import model.VertexM;
@@ -13,7 +13,8 @@ import java.util.List;
 import org.junit.jupiter.api.Test;
 
 public class MAGraphTest {
-	private ALGraph<Station> m;
+	
+	private MAGraph<Station> m;
 
 	private void stage1() {
 		Station s1;
@@ -21,7 +22,7 @@ public class MAGraphTest {
 		Station s3;
 		Station s4;
 		Station s5;
-		m = new ALGraph<Station>();
+		m = new MAGraph<Station>();
 		s1 = new Station("1");
 		s2 = new Station("2");
 		s3 = new Station("3");
@@ -47,7 +48,7 @@ public class MAGraphTest {
 		Station s4;
 		Station s5;
 		Station s6;
-		m = new ALGraph<Station>();
+		m = new MAGraph<Station>();
 		s1 = new Station("a");
 		s2 = new Station("b");
 		s3 = new Station("c");
@@ -70,7 +71,7 @@ public class MAGraphTest {
 	}
 	
 	private void stage3() {
-		m = new ALGraph<Station>();
+		m = new MAGraph<Station>();
 		Station s0 = new Station("0");
 		Station s1 = new Station("1");
 		Station s2 = new Station("2");
@@ -134,9 +135,7 @@ public class MAGraphTest {
 		boolean ce = false;
 		for (int i = 0; i < mat.length && !ce; i++) {
 			for (int j = 0; j < mat.length && !ce; j++) {
-				if(mat[i][j]==matF[i][j]) {
-					
-				}else {
+				if(mat[i][j]!=matF[i][j]) {
 					ce = true;
 				}
 			}
