@@ -122,11 +122,16 @@ public class WindowController implements Initializable{
 		Optional<Station> m1 = dialog.showAndWait();
 
 		if(m1.isPresent()) {
-
-			if(ciudad.getAdjacentList().getVertexs().size() <= 5) {
+			
+			if(ciudad.cityExist(m1.get().getName())) {
+				showAlert(9);
+			}else if(ciudad.getAdjacentList().getVertexs().size() == 5) {
+				showAlert(8);
+			}else if(ciudad.getAdjacentList().getVertexs().size() < 5) {
 
 				if(ciudad.getAdjacentList().getVertexs().isEmpty()) {
 					stacion[0] = m1.get();
+					ciudad.addStation(m1.get().getName());
 				}else {
 					boolean t = false;
 					for(int i = 0; i < stacion.length && !t;i++) {
@@ -136,8 +141,8 @@ public class WindowController implements Initializable{
 							stacion[i] = m1.get();
 						}
 					}
+					ciudad.addStation(m1.get().getName());
 				}
-				ciudad.addStation(m1.get().getName());
 				generarGrafico();
 
 			}else {
@@ -159,8 +164,8 @@ public class WindowController implements Initializable{
 			paneGraph.setOnMouseClicked(new EventHandler<MouseEvent>() {
 				@Override
 				public void handle(MouseEvent event) {
-					System.out.println(event.getSceneX());
-					System.out.println(event.getSceneY());
+					System.out.println(event.getScreenX());
+					System.out.println(event.getScreenY());
 				}
 			});
 			gc.clearRect(0,0,canvas.getWidth(), canvas.getHeight());
@@ -202,17 +207,27 @@ public class WindowController implements Initializable{
 			gc.strokeText(stacion[4].getName(),464,226);
 		}
 		
-		if(stacion[0] !=null && stacion[1] != null &&edgeExist(stacion[0],stacion[1]) ) {
+		if(stacion[0] !=null && stacion[1] != null && edgeExist(stacion[0],stacion[1]) ) {
 			
 			gc.strokeLine(75,30, 210, 30);
-			gc.strokeText("[" +Integer.toString(ciudad.getAdjacentList().getEdges().get(0).getWeight()) + "]", 125, 45);
+			gc.strokeText("[" +Integer.toString(ciudad.getWeightFromStation(stacion[0], stacion[1])) + "]", 125, 45);
 			
 		}
 		
-		if(stacion[0] !=null && stacion[2] != null &&edgeExist(stacion[0],stacion[2])) {
-			
+		if(stacion[0] !=null && stacion[2] != null && edgeExist(stacion[0],stacion[2])) {
+			gc.strokeLine(40,75, 40, 210);
+			gc.strokeText("[" +Integer.toString(ciudad.getWeightFromStation(stacion[0], stacion[2])) + "]", 45, 160);
+		}
+		
+		if(stacion[0] != null && stacion[3] != null && edgeExist(stacion[0],stacion[3]) ) {
+			gc.strokeLine(65,65, 217, 215);
+			gc.strokeText("[" +Integer.toString(ciudad.getWeightFromStation(stacion[0], stacion[3])) + "]", 149, 202);
 		}
 
+		if(stacion[0] != null && stacion[4] != null && edgeExist(stacion[0],stacion[4]) ) {
+			gc.strokeLine(65,75,1382,3382);
+			gc.strokeText("[" +Integer.toString(ciudad.getWeightFromStation(stacion[0], stacion[4])) + "]", 225, 460);
+		}
 
 		}catch(NullPointerException e) {
 
@@ -227,8 +242,6 @@ public class WindowController implements Initializable{
 		List<Edge<Station>> m2 = ciudad.getAdjacentList().getEdges();
 		System.out.println(m2.size());
 		for(int i = 0; i < m2.size() && !t;i++) {
-			System.out.println("asdadsaaaaa"); 
-			System.out.println(m2.get(i).getFirst().getName()); 
 			if((m2.get(i).getFirst().getName().equalsIgnoreCase(m.getName())) && (m2.get(i).getSecond().getName().equalsIgnoreCase(m1.getName()))) {
 				t = true;
 			}else if((m2.get(i).getFirst().getName().equalsIgnoreCase(m1.getName())) && (m2.get(i).getSecond().getName().equalsIgnoreCase(m.getName()))) {
@@ -265,9 +278,16 @@ public class WindowController implements Initializable{
 			gameOver.setHeaderText("Please check the bet,some of the texts are empty...");
 			break;
 		case 7:
-			gameOver.setHeaderText("Please check the horse picked, because we cannot find it");
+			gameOver.setHeaderText("Mi rey, eso no es el formato indicado para un numero :C");
 			break;
-
+		case 8:
+		gameOver.setHeaderText("Mi rey, no se pueden añadir mas");
+		break;
+		case 9:
+		gameOver.setHeaderText("Mi rey,ya hay uno igual");
+		break;
+		
+		
 		default:
 			break;
 		}
@@ -315,7 +335,7 @@ public class WindowController implements Initializable{
 
 			if(m1.isPresent()) {
 
-				if(ciudad.getAdjacentList().getVertexs().size() <= 5) {
+				if(!ciudad.getAdjacentList().getVertexs().isEmpty()) {
 					for(int i = 0; i < ciudad.getAdjacentList().getVertexs().size();i++) {
 						if(m1.get().getName().equalsIgnoreCase(stacion[i].getName())) {
 							stacion[i] = null; 
@@ -399,6 +419,8 @@ public class WindowController implements Initializable{
 		}
 		}catch(NullPointerException e1) {
 			showAlert(6);
+		}catch(NumberFormatException e1) {
+			
 		}
 	}
 	
