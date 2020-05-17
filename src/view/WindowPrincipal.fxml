@@ -12,7 +12,7 @@
       <Button fx:id="deleteStation" layoutX="143.0" layoutY="21.0" mnemonicParsing="false" onAction="#DelateVertexButton" text="Delete Station" />
       <Button fx:id="addEdge" layoutX="261.0" layoutY="21.0" mnemonicParsing="false" onAction="#connectToStation" text="Connect Station" />
       <Pane fx:id="paneGraph" layoutY="69.0" prefHeight="328.0" prefWidth="735.0" />
-      <Button layoutX="389.0" layoutY="21.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="48.0" text="BFS" />
-      <Button layoutX="453.0" layoutY="21.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="79.0" text="Djistrak" />
+      <Button fx:id="distance" layoutX="389.0" layoutY="21.0" mnemonicParsing="false" onAction="#pressButtonBfs" prefHeight="25.0" prefWidth="48.0" text="BFS" />
+      <Button fx:id="stations" layoutX="453.0" layoutY="21.0" mnemonicParsing="false" onAction="#pressButtonDijstrak" prefHeight="25.0" prefWidth="79.0" text="Djistrak" />
    </children>
 </Pane>
