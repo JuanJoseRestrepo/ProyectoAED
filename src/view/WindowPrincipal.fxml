@@ -4,13 +4,15 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.Pane?>
 
-<Pane fx:id="principalPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.WindowController">
+<Pane fx:id="principalPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="735.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.WindowController">
    <children>
-      <Label fx:id="labelClock" layoutX="463.0" layoutY="21.0" prefHeight="25.0" prefWidth="123.0" />
-      <Label layoutX="386.0" layoutY="25.0" text="TIME " />
+      <Label fx:id="labelClock" layoutX="637.0" layoutY="21.0" prefHeight="25.0" prefWidth="91.0" />
+      <Label layoutX="598.0" layoutY="25.0" text="TIME " />
       <Button fx:id="addVertex" layoutX="39.0" layoutY="21.0" mnemonicParsing="false" onAction="#addVertexButton" text="Add Station" />
       <Button fx:id="deleteStation" layoutX="143.0" layoutY="21.0" mnemonicParsing="false" onAction="#DelateVertexButton" text="Delete Station" />
       <Button fx:id="addEdge" layoutX="261.0" layoutY="21.0" mnemonicParsing="false" onAction="#connectToStation" text="Connect Station" />
-      <Pane fx:id="paneGraph" layoutX="12.0" layoutY="69.0" prefHeight="317.0" prefWidth="574.0" />
+      <Pane fx:id="paneGraph" layoutY="69.0" prefHeight="328.0" prefWidth="735.0" />
+      <Button layoutX="389.0" layoutY="21.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="48.0" text="BFS" />
+      <Button layoutX="453.0" layoutY="21.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="79.0" text="Djistrak" />
    </children>
 </Pane>
