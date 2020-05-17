@@ -4,7 +4,7 @@ import java.net.URL;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
-import Thread.ThreadTime;
+import thread.ThreadTime;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -66,7 +66,7 @@ public class WindowController implements Initializable{
 		labelClock = new Label();
 		startClock();
 		ciudad = new City(); 
-		stacion = new Station[5];
+		stacion = new Station[6];
 	} 
 
 
@@ -125,28 +125,16 @@ public class WindowController implements Initializable{
 			
 			if(ciudad.cityExist(m1.get().getName())) {
 				showAlert(9);
-			}else if(ciudad.getAdjacentList().getVertexs().size() == 5) {
-				showAlert(8);
-			}else if(ciudad.getAdjacentList().getVertexs().size() < 5) {
-
-				if(ciudad.getAdjacentList().getVertexs().isEmpty()) {
-					stacion[0] = m1.get();
-					ciudad.addStation(m1.get().getName());
-				}else {
-					boolean t = false;
-					for(int i = 0; i < stacion.length && !t;i++) {
-						if(stacion[i] == null){
-							t = true;
-							System.out.println("asda");
-							stacion[i] = m1.get();
-						}
+			}else{
+				boolean t = false;
+				for(int i = 0; i < stacion.length && !t;i++) {
+					if(stacion[i] == null){
+						t = true;
+						stacion[i] = m1.get();
 					}
-					ciudad.addStation(m1.get().getName());
 				}
+				ciudad.addStation(m1.get().getName());
 				generarGrafico();
-
-			}else {
-				showAlert(1);
 			}
 		}else {
 			showAlert(3);
@@ -161,74 +149,42 @@ public class WindowController implements Initializable{
 			canvas = new Canvas(paneGraph.getWidth(),paneGraph.getHeight());
 			gc = canvas.getGraphicsContext2D();
 			paneGraph.getChildren().add(canvas);
-			paneGraph.setOnMouseClicked(new EventHandler<MouseEvent>() {
-				@Override
-				public void handle(MouseEvent event) {
-					System.out.println(event.getScreenX());
-					System.out.println(event.getScreenY());
-				}
-			});
 			gc.clearRect(0,0,canvas.getWidth(), canvas.getHeight());
-			gc.beginPath(); 
-
-			if(stacion[0] != null) {
-				gc.setFill(Color.WHITE);
-				gc.fillOval(10, 10, 70, 70);
-				gc.strokeOval(10,10, 70, 70);
-				gc.strokeText(stacion[0].getName(),25,50);
+			gc.beginPath();
+			gc.setFill(Color.WHITE);
+			for(int i = 0; i < stacion.length; i++) {
+				if(stacion[i] != null) {
+					if(i < 3) {
+						gc.fillOval((i%3)*200+10, 10, 70, 70);
+						gc.strokeOval((i%3)*200+10,10, 70, 70);
+						gc.strokeText(stacion[i].getName(), (i%3)*200+25, 50);
+					} else {
+						gc.fillOval((i%3)*200+10, 235, 70, 70);
+						gc.strokeOval((i%3)*200+10, 235, 70, 70);
+						gc.strokeText(stacion[i].getName(),(i%3)*200+25,270);
+					}
+				}
 			}
-
-			if(stacion[1] != null) {
-				gc.setFill(Color.WHITE);
-				gc.fillOval(210, 10, 70, 70);
-				gc.strokeOval(210,10, 70, 70);
-				gc.strokeText(stacion[1].getName(),225,50);
-		}
-			
-			
-		if(stacion[2] != null) {
-			gc.setFill(Color.WHITE);
-			gc.fillOval(10, 210, 70, 70);
-			gc.strokeOval(10, 210, 70, 70);
-			gc.strokeText(stacion[2].getName(),25,235);
-		}
-			
-		if(stacion[3]!= null) {
-			gc.setFill(Color.WHITE);
-			gc.fillOval(210, 210, 70, 70);
-			gc.strokeOval(210, 210, 70, 70);	
-			gc.strokeText(stacion[3].getName(),225,235);
-		}
-			
-		if(stacion[4] != null) {
-			gc.setFill(Color.WHITE);
-			gc.fillOval(446, 203, 70, 70);
-			gc.strokeOval(446, 203, 70, 70);	
-			gc.strokeText(stacion[4].getName(),464,226);
-		}
-		
-		if(stacion[0] !=null && stacion[1] != null && edgeExist(stacion[0],stacion[1]) ) {
-			
-			gc.strokeLine(75,30, 210, 30);
-			gc.strokeText("[" +Integer.toString(ciudad.getWeightFromStation(stacion[0], stacion[1])) + "]", 125, 45);
-			
-		}
-		
-		if(stacion[0] !=null && stacion[2] != null && edgeExist(stacion[0],stacion[2])) {
-			gc.strokeLine(40,75, 40, 210);
-			gc.strokeText("[" +Integer.toString(ciudad.getWeightFromStation(stacion[0], stacion[2])) + "]", 45, 160);
-		}
-		
-		if(stacion[0] != null && stacion[3] != null && edgeExist(stacion[0],stacion[3]) ) {
-			gc.strokeLine(65,65, 217, 215);
-			gc.strokeText("[" +Integer.toString(ciudad.getWeightFromStation(stacion[0], stacion[3])) + "]", 149, 202);
-		}
-
-		if(stacion[0] != null && stacion[4] != null && edgeExist(stacion[0],stacion[4]) ) {
-			gc.strokeLine(65,75,1382,3382);
-			gc.strokeText("[" +Integer.toString(ciudad.getWeightFromStation(stacion[0], stacion[4])) + "]", 225, 460);
-		}
-
+			for(int i = 0; i < stacion.length; i++) {
+				for(int j = i; j < stacion.length; j++) {
+					if(stacion[i] !=null && stacion[j] != null && edgeExist(stacion[i],stacion[j]) ) {
+						if(i < 3) {
+							if(j < 3) {
+								gc.strokeLine((i%3)*200+10+70,50, (j%3)*200+10,50);
+								gc.strokeText(Integer.toString(ciudad.getWeightFromStation(stacion[i], stacion[j])), ((j%3)*200+70+10+(i%3)*200+10)/2, 50);
+							} else {
+								gc.strokeLine((i%3)*200+10+70,50, (j%3)*200+10,275);
+								gc.strokeText(Integer.toString(ciudad.getWeightFromStation(stacion[i], stacion[j])), ((j%3)*200+70+10+(i%3)*200+10)/2, (50+275)/2);
+							}
+						} else {
+							if(j > 2) {
+								gc.strokeLine((i%3)*200+10+70,275, (j%3)*200+10,275);
+								gc.strokeText(Integer.toString(ciudad.getWeightFromStation(stacion[i], stacion[j])), ((j%3)*200+70+10+(i%3)*200+10)/2, 275);
+							}
+						}
+					}
+				}
+			}
 		}catch(NullPointerException e) {
 
 		}catch(IndexOutOfBoundsException e) {
@@ -236,11 +192,10 @@ public class WindowController implements Initializable{
 		}
 	}
 
-	
+
 	public boolean edgeExist(Station m, Station m1) {
 		boolean t = false;
 		List<Edge<Station>> m2 = ciudad.getAdjacentList().getEdges();
-		System.out.println(m2.size());
 		for(int i = 0; i < m2.size() && !t;i++) {
 			if((m2.get(i).getFirst().getName().equalsIgnoreCase(m.getName())) && (m2.get(i).getSecond().getName().equalsIgnoreCase(m1.getName()))) {
 				t = true;
@@ -248,9 +203,7 @@ public class WindowController implements Initializable{
 				t = true;
 			}	
 		}
-		
 		return t;
-		
 	}
 	
 
@@ -258,9 +211,6 @@ public class WindowController implements Initializable{
 		Alert gameOver = new Alert(AlertType.INFORMATION);
 		gameOver.setTitle("ERROR");
 		switch (msg) {
-		case 1:
-			gameOver.setHeaderText("Please check the ID, it must be a number!");
-			break;
 		case 2:
 			gameOver.setHeaderText("Please check the ID, it is empty...");
 			break;
