@@ -1,4 +1,4 @@
-package Test;
+package test;
 import model.MAGraph;
 import model.Station;
 import model.VertexM;
