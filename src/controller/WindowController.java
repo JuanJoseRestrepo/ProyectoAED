@@ -425,7 +425,7 @@ public class WindowController implements Initializable{
 			String[] msj = m1.get().split(";");
 			System.out.println(msj[0]);
 			System.out.println(msj[1]);
-			String msj1 = ciudad.minimumDistanceWeight(msj[0], msj[1]);
+			String msj1 = ciudad.minimumDistanceEdges(msj[0], msj[1]);
 			System.out.println(msj1);
 			Alert alert = new Alert(AlertType.INFORMATION);
 			alert.setTitle("Information Dialog");
@@ -451,6 +451,7 @@ public class WindowController implements Initializable{
 	}
 	
 	public void pressButtonDijstrak(ActionEvent e) {
+		try {
 		Dialog<String> dialog = new Dialog<>();
 		dialog.setTitle("");
 		dialog.setHeaderText("Please type the Station name,to find the lowest distance in station 1 to station 2 ");
@@ -470,6 +471,55 @@ public class WindowController implements Initializable{
 		
 		ButtonType buttonTypeOk = new ButtonType("Accept", ButtonData.OK_DONE);
 		dialog.getDialogPane().getButtonTypes().add(buttonTypeOk);
+		
+		dialog.setResultConverter(new Callback<ButtonType, String>() {
+			public String call(ButtonType b) {
+
+				if(b == buttonTypeOk) {
+					if(!text1.getText().isEmpty() && !text2.getText().isEmpty()) {
+						String m = text1.getText() + ";" + text2.getText();
+
+						return m;
+
+					}else {
+						showAlert(4);
+					}
+				}
+
+				return null;
+			}
+		});
+		
+		setCss(dialog);
+		
+		Optional<String> m1 = dialog.showAndWait();
+		
+		if(m1.isPresent()) {
+			
+			String[] msj = m1.get().split(";");
+			System.out.println(msj[0]);
+			System.out.println(msj[1]);
+			String msj1 = ciudad.minimumDistanceWeight(msj[0], msj[1]);
+			System.out.println(msj1);
+			Alert alert = new Alert(AlertType.INFORMATION);
+			alert.setTitle("Information Dialog");
+			alert.setHeaderText("Look, an Information Dialog");
+			alert.setContentText(msj1);
+
+			alert.showAndWait();
+			
+			 
+		}else {
+			showAlert(2);
+		}
+	
+		}catch(NullPointerException e1) {
+			showAlert(6);
+		}catch(NumberFormatException e1) {
+			
+		}
+		
+		
 	}
 	
 	
