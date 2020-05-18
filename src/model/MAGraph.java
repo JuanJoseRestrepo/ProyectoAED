@@ -157,7 +157,7 @@ public class MAGraph<T> implements IGraph<T>{
 		int row = vertexM.getPosition();
 		for(int i = 0; i < matrix.length; i++) {
 			if(matrix[row][i] > 0) {
-				for(int j = 0; j < vertexs.size();j++) {
+				for(int j = 0; j < matrix.length;j++) {
 					if(vertexs.get(j).getColor().equals("WHITE")) {						
 						vertexs.get(j).setPredecessor(vertexM);
 						DFSVisit(vertexs.get(j));
