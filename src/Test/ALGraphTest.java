@@ -87,6 +87,26 @@ public class ALGraphTest {
 		m.connect(s3, s4, 6);
 		m.connect(s2, s4, 8);
 	}
+	
+	private void stage4() {
+		m = new ALGraph<Station>();
+		Station s1 = new Station("1");
+		Station s2 = new Station("2");
+		Station s3 = new Station("3");
+		Station s4 = new Station("4");
+		Station s5 = new Station("5");
+		Station s6 = new Station("6");
+		m.add(s1);
+		m.add(s2);
+		m.add(s3);
+		m.add(s4);
+		m.add(s5);
+		m.add(s6);
+		m.connect(s1, s2, 3);
+		m.connect(s2, s6, 21);
+		m.connect(s5, s4, 7);
+	}
+	
 
 	@Test
 	void DFSTest() {
@@ -95,10 +115,22 @@ public class ALGraphTest {
 		assertTrue(m.getVertexs().get(0).getDistance() == 1 && m.getVertexs().get(0).getF() == 10);
 	}
 	@Test
+	void DFSLTest() {
+		stage4();
+		m.DFS();
+		assertTrue(m.getVertexs().get(0).getDistance() == 1 && m.getVertexs().get(0).getF() == 6);
+	}
+	@Test
 	void BFSTest() {
 		stage1();
 		m.BFS(m.getVertexs().get(0).getObject());
 		assertTrue(m.getVertexs().get(0).getDistance()==0);
+	}
+	@Test
+	void BFSLTest() {
+		stage4();
+		m.BFS(m.getVertexs().get(0).getObject());
+		assertTrue(m.getVertexs().get(2).getDistance()==2147483647);
 	}
 	@Test
 	void floydWarshallTest() {
@@ -133,14 +165,65 @@ public class ALGraphTest {
 		boolean ce = false;
 		for (int i = 0; i < mat.length && !ce; i++) {
 			for (int j = 0; j < mat.length && !ce; j++) {
-				if(mat[i][j] != matF[i][j]) {
+				if(mat[i][j]!=matF[i][j]) {
 					ce = true;
 				}
 			}
 		}
 		assertTrue(!ce);
 	}
-	
+	@Test
+	void floydWarshallLiTest() {
+		stage4();
+		int[][] mat = new int[6][6];
+		mat[0][0] = 0;
+		mat[0][1] = 3;
+		mat[0][2] = 2147483647;
+		mat[0][3] = 2147483647;
+		mat[0][4] = 2147483647;
+		mat[0][5] = 24;
+		mat[1][1] = 0;
+		mat[1][0] = 3;
+		mat[1][2] = 2147483647;
+		mat[1][3] = 2147483647;
+		mat[1][4] = 2147483647;
+		mat[1][5] = 21;
+		mat[2][2] = 0;
+		mat[2][0] = 2147483647;
+		mat[2][1] = 2147483647;
+		mat[2][3] = 2147483647;
+		mat[2][4] = 2147483647;
+		mat[2][5] = 2147483647;
+		mat[3][3] = 0;
+		mat[3][0] = 2147483647;
+		mat[3][1] = 2147483647;
+		mat[3][2] = 2147483647;
+		mat[3][4] = 7;
+		mat[3][5] = 2147483647;
+		mat[4][4] = 0;
+		mat[4][0] = 2147483647;
+		mat[4][1] = 2147483647;
+		mat[4][2] = 2147483647;
+		mat[4][3] = 7;
+		mat[4][5] = 2147483647;
+		mat[5][5] = 0;
+		mat[5][0] = 24;
+		mat[5][1] = 21;
+		mat[5][2] = 2147483647;
+		mat[5][3] = 2147483647;
+		mat[5][4] = 2147483647;
+		
+		long[][] matF = m.floydWarshall();
+		boolean ce = false;
+		for (int i = 0; i < mat.length && !ce; i++) {
+			for (int j = 0; j < mat.length && !ce; j++) {
+				if(mat[i][j]!=matF[i][j]) {
+					ce = true;
+				}
+			}
+		}
+		assertTrue(!ce);
+	}
 	@Test 
 	void kruskalTest() {
 		int camino =0;
@@ -150,13 +233,33 @@ public class ALGraphTest {
 			camino += m1.get(i).getWeight();
 		}
 		assertTrue(camino==43);
+		
+		
 	}
-	
+	@Test 
+	void kruskalLiTest() {
+		int camino =0;
+		stage4();
+		List<Edge<Station>> m1 =  m.Kruskal();
+		for (int i = 0; i < m1.size(); i++) {
+			camino += m1.get(i).getWeight();
+		}
+		assertTrue(camino==31);
+		
+		
+	}
 	@Test
 	void dijkstraTest() {
 		stage2();
 		m.Dijkstra(m.getVertexs().get(0).getObject());
 		int t = m.getVertexs().get(1).getDistance();
 		assertTrue(t==4);
+	}
+	@Test
+	void dijkstraLiTest() {
+		stage4();
+		m.Dijkstra(m.getVertexs().get(0).getObject());
+		int t = m.getVertexs().get(1).getDistance();
+		assertTrue(t==3);
 	}
 }
