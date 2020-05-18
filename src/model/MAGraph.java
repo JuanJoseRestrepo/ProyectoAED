@@ -229,7 +229,7 @@ public class MAGraph<T> implements IGraph<T>{
 		for(int i = 0; i < vertexs.size(); i++) {
 			if(vertexs.get(i).getObject().equals(originO)) {
 				origin = vertexs.get(i);
-			} else if(vertexs.get(i).getObject().equals(destinyO)) {
+			} if(vertexs.get(i).getObject().equals(destinyO)) {
 				destiny = vertexs.get(i);
 			}
 		}

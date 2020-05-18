@@ -260,7 +260,7 @@ public class ALGraph<T> implements IGraph<T>{
 		for(int i = 0; i < vertexs.size(); i++) {
 			if(vertexs.get(i).getObject().equals(originO)) {
 				origin = vertexs.get(i);
-			} else if(vertexs.get(i).getObject().equals(destinyO)) {
+			} if(vertexs.get(i).getObject().equals(destinyO)) {
 				destiny = vertexs.get(i);
 			}
 		}
@@ -269,7 +269,7 @@ public class ALGraph<T> implements IGraph<T>{
 		} else if(destiny.getPredecessor() == null) {
 			return "There is not path";
 		} else {
-			return printPath(originO, destiny.getPredecessor().getObject())+" -> " + destiny.toString(); 
+			return printPath(originO, destiny.getPredecessor().getObject())+" -> " + destiny.toString();
 		}
 	}
 

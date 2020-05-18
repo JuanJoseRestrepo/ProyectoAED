@@ -122,7 +122,7 @@ public class WindowController implements Initializable{
 		Optional<Station> m1 = dialog.showAndWait();
 
 		if(m1.isPresent()) {
-			
+
 			if(ciudad.cityExist(m1.get().getName())) {
 				showAlert(9);
 			}else{
@@ -206,7 +206,7 @@ public class WindowController implements Initializable{
 		}
 		return t;
 	}
-	
+
 
 	public void showAlert(int msg) {
 		Alert gameOver = new Alert(AlertType.INFORMATION);
@@ -232,13 +232,13 @@ public class WindowController implements Initializable{
 			gameOver.setHeaderText("Mi rey, eso no es el formato indicado para un numero :C");
 			break;
 		case 8:
-		gameOver.setHeaderText("Mi rey, no se pueden añadir mas");
-		break;
+			gameOver.setHeaderText("Mi rey, no se pueden añadir mas");
+			break;
 		case 9:
-		gameOver.setHeaderText("Mi rey,ya hay uno igual");
-		break;
-		
-		
+			gameOver.setHeaderText("Mi rey,ya hay uno igual");
+			break;
+
+
 		default:
 			break;
 		}
@@ -309,225 +309,217 @@ public class WindowController implements Initializable{
 		}
 	}
 
-	
+
 	public void connectToStation(ActionEvent e) {
 		try {
-		Dialog<String> dialog = new Dialog<>();
-		dialog.setTitle("");
-		dialog.setHeaderText("Please type the Station name, to be deleted");
-		dialog.setResizable(false);
-		 
-		Label label1 = new Label("Station name 1: ");
-		TextField text1 = new TextField();
-		Label label2 = new Label("Station name 2: ");
-		TextField text2 = new TextField();
-		Label label3 = new Label("Weight of the station: ");
-		TextField text3 = new TextField();
-		         
-		GridPane grid = new GridPane();
-		grid.add(label1, 1, 1);
-		grid.add(text1, 2, 1);
-		grid.add(label2,1,2);
-		grid.add(text2,2,2);
-		grid.add(label3,1, 3);
-		grid.add(text3,2,3);
-		dialog.getDialogPane().setContent(grid);
-		
-		ButtonType buttonTypeOk = new ButtonType("Accept", ButtonData.OK_DONE);
-		dialog.getDialogPane().getButtonTypes().add(buttonTypeOk);
-		
-		dialog.setResultConverter(new Callback<ButtonType, String>() {
-			public String call(ButtonType b) {
+			Dialog<String> dialog = new Dialog<>();
+			dialog.setTitle("");
+			dialog.setHeaderText("Please type the Station name, to be deleted");
+			dialog.setResizable(false);
 
-				if(b == buttonTypeOk) {
-					if(!text1.getText().isEmpty() && !text2.getText().isEmpty() && !text3.getText().isEmpty()) {
-						String m = text1.getText() + ";" + text2.getText();
+			Label label1 = new Label("Station name 1: ");
+			TextField text1 = new TextField();
+			Label label2 = new Label("Station name 2: ");
+			TextField text2 = new TextField();
+			Label label3 = new Label("Weight of the station: ");
+			TextField text3 = new TextField();
 
-						return m;
+			GridPane grid = new GridPane();
+			grid.add(label1, 1, 1);
+			grid.add(text1, 2, 1);
+			grid.add(label2,1,2);
+			grid.add(text2,2,2);
+			grid.add(label3,1, 3);
+			grid.add(text3,2,3);
+			dialog.getDialogPane().setContent(grid);
 
-					}else {
-						showAlert(4);
+			ButtonType buttonTypeOk = new ButtonType("Accept", ButtonData.OK_DONE);
+			dialog.getDialogPane().getButtonTypes().add(buttonTypeOk);
+
+			dialog.setResultConverter(new Callback<ButtonType, String>() {
+				public String call(ButtonType b) {
+
+					if(b == buttonTypeOk) {
+						if(!text1.getText().isEmpty() && !text2.getText().isEmpty() && !text3.getText().isEmpty()) {
+							String m = text1.getText() + ";" + text2.getText();
+
+							return m;
+
+						}else {
+							showAlert(4);
+						}
 					}
-				}
 
-				return null;
+					return null;
+				}
+			});
+
+
+			setCss(dialog);
+
+			Optional<String> m1 = dialog.showAndWait();
+
+			if(m1.isPresent()) {
+
+				String[] msj = m1.get().split(";");
+				ciudad.connect(msj[0], msj[1],Integer.parseInt(text3.getText()));
+				generarGrafico();
+
+			}else {
+				showAlert(2);
 			}
-		});
-		
-		
-		setCss(dialog);
-		
-		Optional<String> m1 = dialog.showAndWait();
-		
-		if(m1.isPresent()) {
-			
-			String[] msj = m1.get().split(";");
-			ciudad.connect(msj[0], msj[1],Integer.parseInt(text3.getText()));
-			generarGrafico();
-			 
-		}else {
-			showAlert(2);
-		}
 		}catch(NullPointerException e1) {
 			showAlert(6);
 		}catch(NumberFormatException e1) {
-			
+
 		}
 	}
-	
-	
+
+
 	public void pressButtonBfs(ActionEvent e) {
 		try {
-		Dialog<String> dialog = new Dialog<>();
-		dialog.setTitle("");
-		dialog.setHeaderText("Please type the Station name,to find the shortest path in station 1 to station 2 ");
-		dialog.setResizable(false);
-		 
-		Label label1 = new Label("Station name 1: ");
-		TextField text1 = new TextField();
-		Label label2 = new Label("Station name 2: ");
-		TextField text2 = new TextField();
-		
-		         
-		GridPane grid = new GridPane();
-		grid.add(label1, 1, 1);
-		grid.add(text1, 2, 1);
-		grid.add(label2,1,2);
-		grid.add(text2,2,2);
-		dialog.getDialogPane().setContent(grid);
-		
-		ButtonType buttonTypeOk = new ButtonType("Accept", ButtonData.OK_DONE);
-		dialog.getDialogPane().getButtonTypes().add(buttonTypeOk);
-		
-		dialog.setResultConverter(new Callback<ButtonType, String>() {
-			public String call(ButtonType b) {
+			Dialog<String> dialog = new Dialog<>();
+			dialog.setTitle("");
+			dialog.setHeaderText("Please type the Station name,to find the shortest path in station 1 to station 2 ");
+			dialog.setResizable(false);
 
-				if(b == buttonTypeOk) {
-					if(!text1.getText().isEmpty() && !text2.getText().isEmpty()) {
-						String m = text1.getText() + ";" + text2.getText();
+			Label label1 = new Label("Station name 1: ");
+			TextField text1 = new TextField();
+			Label label2 = new Label("Station name 2: ");
+			TextField text2 = new TextField();
 
-						return m;
 
-					}else {
-						showAlert(4);
+			GridPane grid = new GridPane();
+			grid.add(label1, 1, 1);
+			grid.add(text1, 2, 1);
+			grid.add(label2,1,2);
+			grid.add(text2,2,2);
+			dialog.getDialogPane().setContent(grid);
+
+			ButtonType buttonTypeOk = new ButtonType("Accept", ButtonData.OK_DONE);
+			dialog.getDialogPane().getButtonTypes().add(buttonTypeOk);
+
+			dialog.setResultConverter(new Callback<ButtonType, String>() {
+				public String call(ButtonType b) {
+
+					if(b == buttonTypeOk) {
+						if(!text1.getText().isEmpty() && !text2.getText().isEmpty()) {
+							String m = text1.getText() + ";" + text2.getText();
+
+							return m;
+
+						}else {
+							showAlert(4);
+						}
 					}
+
+					return null;
 				}
+			});
 
-				return null;
+			setCss(dialog);
+
+			Optional<String> m1 = dialog.showAndWait();
+
+			if(m1.isPresent()) {
+				String[] msj = m1.get().split(";");
+				String msj1 = ciudad.minimumDistanceEdges(msj[0], msj[1]);
+				Alert alert = new Alert(AlertType.INFORMATION);
+				alert.setTitle("Information Dialog");
+				alert.setHeaderText("Look, an Information Dialog");
+				alert.setContentText(msj1);
+				alert.showAndWait();
+			}else {
+				showAlert(2);
 			}
-		});
-		
-		setCss(dialog);
-		
-		Optional<String> m1 = dialog.showAndWait();
-		
-		if(m1.isPresent()) {
-			
-			String[] msj = m1.get().split(";");
-			System.out.println(msj[0]);
-			System.out.println(msj[1]);
-			String msj1 = ciudad.minimumDistanceEdges(msj[0], msj[1]);
-			System.out.println(msj1);
-			Alert alert = new Alert(AlertType.INFORMATION);
-			alert.setTitle("Information Dialog");
-			alert.setHeaderText("Look, an Information Dialog");
-			alert.setContentText(msj1);
-
-			alert.showAndWait();
-			
-			 
-		}else {
-			showAlert(2);
-		}
-	
 		}catch(NullPointerException e1) {
 			showAlert(6);
 		}catch(NumberFormatException e1) {
-			
+
 		}
-		
-		
-		
-		
+
+
+
+
 	}
-	
+
 	public void pressButtonDijstrak(ActionEvent e) {
 		try {
-		Dialog<String> dialog = new Dialog<>();
-		dialog.setTitle("");
-		dialog.setHeaderText("Please type the Station name,to find the lowest distance in station 1 to station 2 ");
-		dialog.setResizable(false);
-		 
-		Label label1 = new Label("Station name 1: ");
-		TextField text1 = new TextField();
-		Label label2 = new Label("Station name 2: ");
-		TextField text2 = new TextField();
-		         
-		GridPane grid = new GridPane();
-		grid.add(label1, 1, 1);
-		grid.add(text1, 2, 1);
-		grid.add(label2,1,2);
-		grid.add(text2,2,2);
-		dialog.getDialogPane().setContent(grid);
-		
-		ButtonType buttonTypeOk = new ButtonType("Accept", ButtonData.OK_DONE);
-		dialog.getDialogPane().getButtonTypes().add(buttonTypeOk);
-		
-		dialog.setResultConverter(new Callback<ButtonType, String>() {
-			public String call(ButtonType b) {
+			Dialog<String> dialog = new Dialog<>();
+			dialog.setTitle("");
+			dialog.setHeaderText("Please type the Station name,to find the lowest distance in station 1 to station 2 ");
+			dialog.setResizable(false);
 
-				if(b == buttonTypeOk) {
-					if(!text1.getText().isEmpty() && !text2.getText().isEmpty()) {
-						String m = text1.getText() + ";" + text2.getText();
+			Label label1 = new Label("Station name 1: ");
+			TextField text1 = new TextField();
+			Label label2 = new Label("Station name 2: ");
+			TextField text2 = new TextField();
 
-						return m;
+			GridPane grid = new GridPane();
+			grid.add(label1, 1, 1);
+			grid.add(text1, 2, 1);
+			grid.add(label2,1,2);
+			grid.add(text2,2,2);
+			dialog.getDialogPane().setContent(grid);
 
-					}else {
-						showAlert(4);
+			ButtonType buttonTypeOk = new ButtonType("Accept", ButtonData.OK_DONE);
+			dialog.getDialogPane().getButtonTypes().add(buttonTypeOk);
+
+			dialog.setResultConverter(new Callback<ButtonType, String>() {
+				public String call(ButtonType b) {
+
+					if(b == buttonTypeOk) {
+						if(!text1.getText().isEmpty() && !text2.getText().isEmpty()) {
+							String m = text1.getText() + ";" + text2.getText();
+
+							return m;
+
+						}else {
+							showAlert(4);
+						}
 					}
+
+					return null;
 				}
+			});
 
-				return null;
+			setCss(dialog);
+
+			Optional<String> m1 = dialog.showAndWait();
+
+			if(m1.isPresent()) {
+
+				String[] msj = m1.get().split(";");
+				System.out.println(msj[0]);
+				System.out.println(msj[1]);
+				String msj1 = ciudad.minimumDistanceWeight(msj[0], msj[1]);
+				System.out.println(msj1);
+				Alert alert = new Alert(AlertType.INFORMATION);
+				alert.setTitle("Information Dialog");
+				alert.setHeaderText("Look, an Information Dialog");
+				alert.setContentText(msj1);
+
+				alert.showAndWait();
+
+
+			}else {
+				showAlert(2);
 			}
-		});
-		
-		setCss(dialog);
-		
-		Optional<String> m1 = dialog.showAndWait();
-		
-		if(m1.isPresent()) {
-			
-			String[] msj = m1.get().split(";");
-			System.out.println(msj[0]);
-			System.out.println(msj[1]);
-			String msj1 = ciudad.minimumDistanceWeight(msj[0], msj[1]);
-			System.out.println(msj1);
-			Alert alert = new Alert(AlertType.INFORMATION);
-			alert.setTitle("Information Dialog");
-			alert.setHeaderText("Look, an Information Dialog");
-			alert.setContentText(msj1);
 
-			alert.showAndWait();
-			
-			 
-		}else {
-			showAlert(2);
-		}
-	
 		}catch(NullPointerException e1) {
 			showAlert(6);
 		}catch(NumberFormatException e1) {
-			
+
 		}
-		
-		
+
+
 	}
-	
-	
+
+
 	public void startClock() {
 		time = new ThreadTime(this);
 		time.start();
 	}
-	
+
 
 }
